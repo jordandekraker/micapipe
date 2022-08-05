@@ -1,81 +1,40 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>rs-fMRI &mdash; micapipe  documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/sphinx_tabs/semantic-ui-2.4.1/segment.min.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/sphinx_tabs/semantic-ui-2.4.1/menu.min.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/sphinx_tabs/semantic-ui-2.4.1/tab.min.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/sphinx_tabs/tabs.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/css/mica-pipe_colors.css" type="text/css" />
-
-  
-  
-  
-  
-
-  
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/mica-pipe_colors.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_tabs/semantic-ui-2.4.1/tab.min.js"></script>
-        <script src="../../_static/sphinx_tabs/tabs.js"></script>
-    
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
-
-    
+        <script src="../../_static/tabs.js"></script>
+    <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Microstructural profile covariance" href="../02.microstructproc/index.html" />
-    <link rel="prev" title="Diffusion-weighted imaging processing" href="../02.dwiproc/index.html" /> 
+    <link rel="prev" title="Arterial spin labeling image processing" href="../02.aslproc/index.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search"  style="background: #261F4A" >
-          
-
-          
             <a href="../../index.html">
-          
-
-          
-            
             <img src="../../_static/html_logo.png" class="logo" alt="Logo"/>
-          
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -83,18 +42,7 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../01.install/index.html">Installation</a></li>
@@ -106,6 +54,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../02.structuralproc/index.html">Structural processing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../02.dwiproc/index.html">Diffusion-weighted imaging processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02.aslproc/index.html">Arterial spin labeling image processing</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Resting-state fMRI processing</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#proc-rsfmri">-proc_rsfmri</a></li>
 </ul>
@@ -135,100 +84,43 @@
 <li class="toctree-l1"><a class="reference internal" href="../06.acknowledge/index.html">Acknowlegdements</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #261F4A" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../index.html">micapipe</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-        
       <li>rs-fMRI</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-            
             <a href="../../_sources/pages/02.restingstateproc/index.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="resting-state-fmri-processing">
-<span id="restingstateproc"></span><h1>Resting-state fMRI processing<a class="headerlink" href="#resting-state-fmri-processing" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="resting-state-fmri-processing">
+<span id="restingstateproc"></span><h1>Resting-state fMRI processing<a class="headerlink" href="#resting-state-fmri-processing" title="Permalink to this heading"></a></h1>
 <p>This module performs all pre-processing of a subject’s resting-state functional MRI (rsfMRI) scans, in preparation for the construction of functional connectomes. This pipeline is optimized for spin-echo images with reverse phase encoding used for distortion correction. The pipeline is mainly based on tools from FSL and AFNI for volumetric processing, and FreeSurfer and Workbench for surface-based mapping. For increased functionality, micapipe can also handle protocols in which a single fieldmap is acquired.</p>
 <img alt="../../_images/sankey_rsfmri.png" class="align-center" src="../../_images/sankey_rsfmri.png" />
-<div class="section" id="proc-rsfmri">
-<h2>-proc_rsfmri<a class="headerlink" href="#proc-rsfmri" title="Permalink to this headline">¶</a></h2>
+<section id="proc-rsfmri">
+<h2>-proc_rsfmri<a class="headerlink" href="#proc-rsfmri" title="Permalink to this heading"></a></h2>
 <div class="admonition-prerequisites admonition">
 <p class="admonition-title">Prerequisites 🖐🏼</p>
 <p>You need to run <code class="docutils literal notranslate"><span class="pre">-proc_structural</span></code>, <code class="docutils literal notranslate"><span class="pre">-proc_freesurfer</span></code> and <code class="docutils literal notranslate"><span class="pre">-post_structural</span></code> before this stage</p>
 </div>
 <a class="reference internal image-reference" href="../../_images/proc_rsfmri.png"><img alt="../../_images/proc_rsfmri.png" class="align-center" src="../../_images/proc_rsfmri.png" style="width: 368.9px; height: 876.4px;" /></a>
 <div class="sphinx-tabs docutils container">
-<div class="ui top attached tabular menu sphinx-menu docutils container">
-<div class="active item sphinx-data-tab-0-0 docutils container">
-<div class="docutils container">
-<p>Processing steps</p>
-</div>
-</div>
-<div class="item sphinx-data-tab-0-1 docutils container">
-<div class="docutils container">
-<p>Usage</p>
-</div>
-</div>
-<div class="item sphinx-data-tab-0-2 docutils container">
-<div class="docutils container">
-<p>Outputs</p>
-</div>
-</div>
-</div>
-<div class="ui bottom attached sphinx-tab tab segment sphinx-data-tab-0-0 active docutils container">
-<ul class="simple">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">Processing steps</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">Usage</button><button aria-controls="panel-0-0-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-2" name="0-2" role="tab" tabindex="-1">Outputs</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><ul class="simple">
 <li><p>Remove first five TRs and reorient to LPI</p></li>
 <li><p>Reorients to standard</p></li>
 <li><p>Perform motion correction within rsfMRI scan and provided fieldmaps by registering each volume to the scan’s own average</p></li>
@@ -248,9 +140,7 @@
 <li><p>Regress motion spikes (and tissue-specific or global signal variables, if specified by user) from cerebellar, subcortical, and cortical timeseries in linear model</p></li>
 <li><p>Concatenate cerebellar, subcortical, and parcellated cortical timeseries and compute correlation matrix</p></li>
 </ul>
-</div>
-<div class="ui bottom attached sphinx-tab tab segment sphinx-data-tab-0-1 docutils container">
-<p><strong>Terminal:</strong></p>
+</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><p><strong>Terminal:</strong></p>
 <pre class="literal-block">$ mica-pipe <strong>-sub</strong> &lt;subject_id&gt; <strong>-out</strong> &lt;outputDirectory&gt; <strong>-bids</strong> &lt;BIDS-directory&gt; <strong>-proc_rsfmri</strong></pre>
 <p><strong>Docker command:</strong></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ docker -proc_rsfmri
@@ -348,9 +238,9 @@
 <p class="admonition-title">Notes on ICA-Melodic and ICA-FIX 🛁</p>
 <p>FIX and Melodic are used by default to remove nuisance variable signal. However, our default parameters might not suit all databases. Our default training file used for FIX was trained in-house, on a subset of 30 participants (15 healthy controls, 15 patients with drug-resistant epilepsy). Scans were acquires on a 3T Siemens Magnetom Prisma-Fit equipped with a 64-channel head coil. rs-fMRI scans of 7 minutes were acquired using multiband accelerated 2D-BOLD echo-planar imaging (3mm isotropic voxels, TR=600ms, TE=30ms, flip angle=52°, FOV=240×240mm2, slice thickness=3mm, mb factor=6, echo spacing=0.54ms). If your acquisition parameters are similar to this, it may be appropriate for you to use the defaults options in <code class="docutils literal notranslate"><span class="pre">-proc_rsfmri</span></code>. Otherwise, if your acquisition parameters are drastically different, we recommend you to <a class="reference external" href="https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FIX/UserGuide#Training_datasets">train your own dataset for FIX</a>, or do not use FIX and try a different method for nuisance variable signal removal. In the next example,FIX and Melodic will be skipped, but global signal, white matter and CSF regressions will be applied:</p>
 <div class="literal-block-wrapper docutils container" id="id1">
-<div class="code-block-caption"><span class="caption-text">Example</span><a class="headerlink" href="#id1" title="Permalink to this code">¶</a></div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="lineno">1 </span>mica-pipe -sub &lt;subject_id&gt; -out &lt;outputDirectory&gt; -bids &lt;BIDS-directory&gt; <span class="se">\</span>
-<span class="lineno">2 </span>          -proc_rsfmri -noFIX -regress_WM_CSF -GSR
+<div class="code-block-caption"><span class="caption-text">Example</span><a class="headerlink" href="#id1" title="Permalink to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span>mica-pipe -sub &lt;subject_id&gt; -out &lt;outputDirectory&gt; -bids &lt;BIDS-directory&gt; <span class="se">\</span>
+<span class="linenos">2</span>          -proc_rsfmri -noFIX -regress_WM_CSF -GSR
 </pre></div>
 </div>
 </div>
@@ -370,16 +260,14 @@ anatomical session, you should use the <code class="docutils literal notranslate
 </div>
 <p>You should specify <code class="docutils literal notranslate"><span class="pre">-sesAnat</span></code> <code class="docutils literal notranslate"><span class="pre">struct01</span></code> to register each session to the same anatomical volume. In the next example, sessions <code class="docutils literal notranslate"><span class="pre">func01</span></code> and <code class="docutils literal notranslate"><span class="pre">func02</span></code> will be registered to the anatomical image in <code class="docutils literal notranslate"><span class="pre">struct01</span></code>:</p>
 <div class="literal-block-wrapper docutils container" id="id2">
-<div class="code-block-caption"><span class="caption-text">Example</span><a class="headerlink" href="#id2" title="Permalink to this code">¶</a></div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="lineno">1 </span> mica-pipe -sub <span class="m">01</span> -ses func01 -proc_rsfmri -sesAnat struct01 -bids &lt;bidsDir&gt; -out &lt;outDir&gt;
-<span class="lineno">2 </span> mica-pipe -sub <span class="m">01</span> -ses func02 -proc_rsfmri -sesAnat struct01 -bids &lt;bidsDir&gt; -out &lt;outDir&gt;
+<div class="code-block-caption"><span class="caption-text">Example</span><a class="headerlink" href="#id2" title="Permalink to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span> mica-pipe -sub <span class="m">01</span> -ses func01 -proc_rsfmri -sesAnat struct01 -bids &lt;bidsDir&gt; -out &lt;outDir&gt;
+<span class="linenos">2</span> mica-pipe -sub <span class="m">01</span> -ses func02 -proc_rsfmri -sesAnat struct01 -bids &lt;bidsDir&gt; -out &lt;outDir&gt;
 </pre></div>
 </div>
 </div>
 </div>
-</div>
-<div class="ui bottom attached sphinx-tab tab segment sphinx-data-tab-0-2 docutils container">
-<p>Directories created or populated by <strong>-proc_rsfmri</strong>:</p>
+</div><div aria-labelledby="tab-0-0-2" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-2" name="0-2" role="tabpanel" tabindex="0"><p>Directories created or populated by <strong>-proc_rsfmri</strong>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="o">&lt;</span><span class="n">outputDirectory</span><span class="o">&gt;/</span><span class="n">micapipe</span><span class="o">/</span><span class="n">func</span>
 <span class="o">-</span> <span class="o">&lt;</span><span class="n">outputDirectory</span><span class="o">&gt;/</span><span class="n">micapipe</span><span class="o">/</span><span class="n">func</span><span class="o">/</span><span class="n">ICA_MELODIC</span>
 <span class="o">-</span> <span class="o">&lt;</span><span class="n">outputDirectory</span><span class="o">&gt;/</span><span class="n">micapipe</span><span class="o">/</span><span class="n">func</span><span class="o">/</span><span class="n">surfaces</span>
@@ -498,14 +386,12 @@ anatomical session, you should use the <code class="docutils literal notranslate
         <em>&lt;sub&gt;_rsfmri_from-nativepro_rsfmri_to-rsfmri_mode-image_desc-SyN_1Warp.nii.gz</em>
         <em>&lt;sub&gt;_rsfmri_from-nativepro_rsfmri_to-rsfmri_mode-image_desc-SyN_InverseWarped.nii.gz</em>
         <em>&lt;sub&gt;_rsfmri_from-nativepro_rsfmri_to-rsfmri_mode-image_desc-SyN_Warped.nii.gz</em></pre>
-</div>
-</div>
-</div>
-</div>
+</div></div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
           <footer>
   
@@ -514,7 +400,7 @@ anatomical session, you should use the <code class="docutils literal notranslate
         <a href="../02.microstructproc/index.html" class="btn btn-neutral float-right" title="Microstructural profile covariance" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../02.dwiproc/index.html" class="btn btn-neutral float-left" title="Diffusion-weighted imaging processing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../02.aslproc/index.html" class="btn btn-neutral float-left" title="Arterial spin labeling image processing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -541,22 +427,13 @@ anatomical session, you should use the <code class="docutils literal notranslate
 
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-    
+  </script>  
 
   <style>
          .wy-nav-content { max-width: none; }

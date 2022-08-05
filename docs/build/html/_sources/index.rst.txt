@@ -112,6 +112,7 @@ Should you have any problems, questions, or suggestions about micapipe, please p
 
    pages/02.structuralproc/index
    pages/02.dwiproc/index
+   pages/02.aslproc/index
    pages/02.restingstateproc/index
    pages/02.microstructproc/index
    pages/02.qc/index
