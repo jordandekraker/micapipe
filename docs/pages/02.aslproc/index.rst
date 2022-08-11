@@ -7,12 +7,19 @@ Arterial spin labeling image processing
 
 This module performs all processing of a subject's perfusion arterial spin labeling MRI (ASL MRI) scan to generate a calibrated map of resting-state cerebral blood flow (CBF). This pipeline is mainly based on a command line tool *oxford_asl* from the BASIL toolset and uses tools from FSL, AFNI, and ANTs for volume processing.
 
+.. image:: S02_methods_asl.png
+   :align: center
+
 -proc_asl
 --------------------------------------------------------
 
 .. admonition:: Prerequisites 🖐🏼
 
      You need to run ``-proc_structural`` before this stage
+
+.. image:: proc_asl.png
+   :scale: 40 %
+   :align: center
 
 .. tabs::
 
