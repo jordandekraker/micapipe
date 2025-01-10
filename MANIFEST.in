@@ -1,0 +1,5 @@
+include micapipe/**/*.yaml
+include micapipe/**/*.yml
+include micapipe/**/*.json
+include micapipe/**/Snakefile
+include micapipe/**/*.smk
