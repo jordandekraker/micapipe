@@ -17,8 +17,8 @@ rule proc_structural:
         T1wStr=config["parameters"]["proc_structural"].get("T1wStr", "T1w.nii"),
         UNI=config["parameters"]["proc_structural"].get("UNI", "FALSE"),
         MF=config["parameters"]["proc_structural"].get("MF", 3),
-        subject_short=lambda wildcards: f"{wildcards.subject}",
-        session_short=lambda wildcards: f"ses-{wildcards.session}",
+        subject_short="{subject}",
+        session_short="ses-{wildcards.session}",
     threads: config.get("threads", 4),
     shell:
         """
