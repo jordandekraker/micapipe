@@ -24,12 +24,12 @@ pybids_inputs:
       - subject
       - session
       - run
-  bold:
-    filters:
-      suffix: bold
-    wildcards:
-      - subject
-      - run
+  # bold:
+  #   filters:
+  #     suffix: bold
+  #   wildcards:
+  #     - subject
+  #     - run
 
 # configuration for the command-line parameters to make available
 # passed on the argparse add_argument()
