@@ -40,6 +40,7 @@ rule proc_structural:
     threads: config.get("threads", 4),
     shell:
         """
+        
         echo "Running structural processing with subject={wildcards.subject}, session={wildcards.session}"
         bash {script_dir}/01_proc-structural.sh \
             {bids_dir} {wildcards.subject} {output_dir} -ses {wildcards.session} \
