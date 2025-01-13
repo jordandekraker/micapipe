@@ -18,7 +18,7 @@ inputs = generate_inputs(
 rule all:
     input:
         inputs['t1w'].expand(),
-        # inputs['bold'].expand()
+        inputs['bold'].expand()
     default_target: True
     params:
         inputs=lambda wcards, input: "- " + "\n- ".join(input)
