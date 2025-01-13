@@ -1,0 +1,15 @@
+bids_dir: "/data_/mica3/BIDS_CI/rawdata"
+output_dir: "/home/bic/eyang/processed_data2"
+script_dir: "./functions"
+subjects:
+  - "mri3T"
+sessions:
+  - "01"
+threads: 6
+software:
+  freesurfer_license: "/data/mica1/01_programs/freesurfer-7.3.2/license.txt"
+parameters:
+  proc_structural:
+    T1wStr: "run-2_T1w"
+    UNI: "FALSE"
+    MF: 45

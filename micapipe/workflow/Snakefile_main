@@ -1,0 +1,88 @@
+from snakebids import bids, generate_inputs, get_wildcard_constraints
+
+configfile: 'config/snakebids.yml'
+
+# Get input wildcards
+inputs = generate_inputs(
+    bids_dir=config["bids_dir"],
+    pybids_inputs=config["pybids_inputs"],
+    pybidsdb_dir=config.get("pybidsdb_dir"),
+    pybidsdb_reset=config.get("pybidsdb_reset"),
+    derivatives=config.get("derivatives", None),
+    participant_label=config.get("participant_label", None),
+    exclude_participant_label=config.get("exclude_participant_label", None),
+    validate=not config.get("plugins.validator.skip", False)
+)
+
+
+rule all:
+    input:
+        inputs['t1w'].expand(),
+        inputs['bold'].expand()
+    default_target: True
+    params:
+        inputs=lambda wcards, input: "- " + "\n- ".join(input)
+    shell:
+        """
+        cat <<EOF
+All set 🚀🚀!
+
+To get going, replace this \`rule all\` block with your own and start adding some rules.
+
+If you need help, check out the tutorial:
+    https://snakebids.readthedocs.io/en/stable/tutorial/tutorial.html
+
+Found the following inputs:
+{params.inputs}
+
+EOF
+        """
+
+
+# configfile: "sample_run.yaml"
+configfile: "config.yaml"
+
+# Define common directories and variables
+script_dir = config["script_dir"]
+bids_dir = config["bids_dir"]
+output_dir = config["output_dir"]
+
+# Include any rules needed first
+include: "rules/structural.smk"
+include: "rules/dwi.smk"
+
+# Define the targets for structural processing once at the top
+structural_targets = [
+    # processed volumetric
+    expand(
+        f"{output_dir}/sub-{{subject}}/ses-{{session}}/anat/processed_volumetric.nii.gz",
+        subject=config["subjects"],
+        session=config["sessions"]
+    ),
+    # processed_surf
+    expand(
+        "{output_dir}/sub-{subject}/ses-{session}/surf/processed_surf.gii",
+        output_dir=output_dir,
+        subject=config["subjects"],
+        session=config["sessions"]
+    ),
+    # post_structural
+    expand(
+        "{output_dir}/sub-{subject}/ses-{session}/anat/post_structural.nii.gz",
+        output_dir=output_dir,
+        subject=config["subjects"],
+        session=config["sessions"]
+    ),
+    # geodesic_distance
+    expand(
+        "{output_dir}/sub-{subject}/ses-{session}/maps/geodesic_distance.nii.gz",
+        output_dir=output_dir,
+        subject=config["subjects"],
+        session=config["sessions"]
+    )
+]
+
+# The master "all" rule at the top
+rule all:
+    input:
+       structural_targets
