@@ -1,12 +1,11 @@
 #list of analysis levels in the bids app
 analysis_levels:
- - participant
-
+  - participant
 
 # mapping from analysis_level to set of target rules or files
 targets_by_analysis_level:
   participant:
-    - 'all'  # if '', then the first rule is run
+    - "all" # if '', then the first rule is run
 
 # Configure components:
 # Each entry creates a new component that can be retreived within the workflow
@@ -19,8 +18,12 @@ pybids_inputs:
   t1w:
     filters:
       suffix: T1w
+      extension: nii.gz
+
     wildcards:
       - subject
+      - session
+      - run
   bold:
     filters:
       suffix: bold
@@ -40,8 +43,6 @@ parse_args:
     action: "store_true"
     default: False
 
-
-
 # Docker and singularity containers may be defined here
 containers:
-    # fsl: 'docker://brainlife/fsl/6.0.0'
+  # fsl: 'docker://brainlife/fsl/6.0.0'
