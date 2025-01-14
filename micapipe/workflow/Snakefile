@@ -6,7 +6,7 @@ output_dir = config['output_dir']
 script_dir = config['script_dir']
 subjects = config['subjects']
 sessions = config['sessions']
-suffix="config['parameters']['proc_structural']['T1wStr']",
+suffix= config['parameters']['proc_structural']['T1wStr'],
 
 
 rule all:
