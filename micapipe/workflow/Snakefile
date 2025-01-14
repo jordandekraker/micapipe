@@ -6,6 +6,8 @@ output_dir = config['output_dir']
 script_dir = config['script_dir']
 subjects = config['subjects']
 sessions = config['sessions']
+suffix="config['parameters']['proc_structural']['T1wStr']",
+
 
 rule all:
     input:
@@ -18,7 +20,6 @@ rule all:
 
 rule proc_structural:
     input:
-        suffix="config['parameters']['proc_structural']['T1wStr']",
         "{config['bids_dir']}/sub-{subject}/ses-{session}/anat/sub-{subject}_ses-{session}_{suffix}.nii.gz"
     output:
         "{output_dir}/micapipe_v0.2.0/sub-{subject}/ses-{session}/anat/sub-{subject}_ses-{session}_space-nativepro_T1w.nii.gz"
