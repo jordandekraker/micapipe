@@ -10,7 +10,7 @@ sessions = config['sessions']
 rule all:
     input:
         expand(
-            "{output_dir}/sub-{subject}/ses-{session}/anat/processed_volumetric.nii.gz",
+            "{output_dir}/micapipe_v0.2.0/sub-{subject}/ses-{session}/anat/sub-{subject}_ses-{session}_space-nativepro_T1w.nii.gz",
             subject=subjects,
             session=sessions,
             output_dir=output_dir
@@ -20,6 +20,7 @@ def get_t1w_input(wildcards):
     """
     Calculate the input T1w path based on the subject and session wildcards.
     """
+    print("wildscards", wildcards)
     return (
         f"{config['bids_dir']}/sub-{wildcards.subject}/ses-{wildcards.session}/anat/"
         f"sub-{wildcards.subject}_ses-{wildcards.session}_{config['parameters']['proc_structural']['T1wStr']}.nii.gz"
@@ -29,20 +30,18 @@ rule proc_structural:
     input:
         get_t1w_input
     output:
-        processed_volumetric="{output_dir}/sub-{subject}/ses-{session}/anat/processed_volumetric.nii.gz"
+        "/home/bic/eyang/processed_data2/micapipe_v0.2.0/sub-mri3T/ses-01/anat/sub-mri3T_ses-01_space-nativepro_T1w.nii.gz"
     params:
         tmpDir="tmp",
         T1wStr=config["parameters"]["proc_structural"].get("T1wStr", "T1w.nii"),
         UNI=config["parameters"]["proc_structural"].get("UNI", "FALSE"),
-        MF=config["parameters"]["proc_structural"].get("MF", 3),
-        subject_short="{subject}",
-        session_short="{session}",
+        MF=config["parameters"]["proc_structural"].get("MF", 45),
+        fs_licence="$FREESURFER_HOME/license.txt",
     threads: config.get("threads", 4),
     shell:
         """
-        
-        echo "Running structural processing with subject={wildcards.subject}, session={wildcards.session}"
-        bash {script_dir}/01_proc-structural.sh \
-            {bids_dir} {wildcards.subject} {output_dir} -ses {wildcards.session} \
-            --threads {threads} --tmpDir {params.tmpDir} --T1wStr {params.T1wStr} --uni {params.UNI} --mf {params.MF}
+        micapipe -sub sub-{wildcards.subject} -out {output_dir} -bids {bids_dir} \
+                -proc_structural -T1wStr {params.T1wStr} --mf {params.MF} \
+            -fs_licence {fs_licence} -ses {wildcards.session}
         """
+
