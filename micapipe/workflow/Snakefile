@@ -10,7 +10,7 @@ sessions = config['sessions']
 rule all:
     input:
         expand(
-            "{output_dir}/sub-{subject}/ses-{session}/anat/processed_volumetric.nii.gz",
+            "{output_dir}/micapipe_v0.2.0/sub-{subject}/ses-{session}/anat/sub-{subject}_ses-{session}_space-nativepro_T1w.nii.gz",
             subject=subjects,
             session=sessions,
             output_dir=output_dir
@@ -27,7 +27,7 @@ def get_t1w_input(wildcards):
 
 rule proc_structural:
     input:
-        get_t1w_input
+        "{config['bids_dir']}/sub-{subject}/ses-{session}/anat/sub-{subject}_ses-{session}_{config['parameters']['proc_structural']['T1wStr']}.nii.gz"
     output:
         processed_volumetric="{output_dir}/sub-{subject}/ses-{session}/anat/processed_volumetric.nii.gz"
     params:
