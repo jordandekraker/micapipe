@@ -3,10 +3,10 @@ from snakebids import bids, generate_inputs, get_wildcard_constraints
 configfile: 'config/mvp.yml'
 
 # Global variables from the config file
-bids_dir = config['bids_dir']
-output_dir = config['output_dir']
-subjects = config['subjects']
-sessions = config['sessions']
+#bids_dir = config['bids_dir']
+#output_dir = config['output_dir']
+#subjects = config['subjects']
+#sessions = config['sessions']
 
 inputs = generate_inputs(
     bids_dir=config["bids_dir"],
