@@ -49,3 +49,9 @@ parse_args:
 # Docker and singularity containers may be defined here
 containers:
   # fsl: 'docker://brainlife/fsl/6.0.0'
+
+parameters:
+  proc_structural:
+    T1wStr: "run-2_T1w"
+    UNI: "FALSE"
+    MF: 45
