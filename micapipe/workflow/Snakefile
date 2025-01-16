@@ -19,6 +19,17 @@ inputs = generate_inputs(
     validate=not config.get("plugins.validator.skip", False)
 )
 
+outputs = generate_inputs(
+    bids_dir=config["bids_dir"],
+    pybids_inputs=config["pybids_inputs"],
+    pybidsdb_dir=config.get("pybidsdb_dir"),
+    pybidsdb_reset=config.get("pybidsdb_reset"),
+    derivatives=config.get("derivatives", None),
+    participant_label=config.get("participant_label", None),
+    exclude_participant_label=config.get("exclude_participant_label", None),
+    validate=not config.get("plugins.validator.skip", False)
+)
+
 
 rule all:
     input:
@@ -29,17 +40,8 @@ rule all:
             datatype='anat',
             space='nativepro',
             suffix='T1w.nii.gz',
+            **inputs.subj_wildcards
         )
-
-def get_t1w_input(wildcards):
-    """
-    Calculate the input T1w path based on the subject and session wildcards.
-    """
-    print("wildscards", wildcards)
-    return (
-        f"{config['bids_dir']}/sub-{wildcards.subject}/ses-{wildcards.session}/anat/"
-        f"sub-{wildcards.subject}_ses-{wildcards.session}_{config['parameters']['proc_structural']['T1wStr']}.nii.gz"
-    )
 
 rule proc_structural:
     input:
@@ -55,6 +57,7 @@ rule proc_structural:
             datatype='anat',
             space='nativepro',
             suffix='T1w.nii.gz',
+            **inputs.subj_wildcards
         )
     params:
         tmpDir="tmp",
