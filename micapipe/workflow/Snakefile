@@ -33,7 +33,7 @@ outputs = generate_inputs(
 
 rule all:
     input:
-	expand(
+        expand(
             bids(
                 root='/home/bic/eyang/processed_data2/micapipe_v0.2.0',
                 subject='{subject}',
@@ -42,9 +42,9 @@ rule all:
                 space='nativepro',
                 suffix='T1w.nii.gz'
             ),
-	    subject=config["subjects"],
-	    session=config["sessions"]
-         ) 
+	        subject=config["subjects"],
+	        session=config["sessions"]
+        ) 
 
 rule proc_structural:
     input:
