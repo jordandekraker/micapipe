@@ -33,15 +33,18 @@ outputs = generate_inputs(
 
 rule all:
     input:
-        bids(
-            root='/home/bic/eyang/processed_data2/micapipe_v0.2.0',
-            subject='{subject}',
-            session='{session}',
-            datatype='anat',
-            space='nativepro',
-            suffix='T1w.nii.gz',
-            **inputs.subj_wildcards
-        )
+	expand(
+            bids(
+                root='/home/bic/eyang/processed_data2/micapipe_v0.2.0',
+                subject='{subject}',
+                session='{session}',
+                datatype='anat',
+                space='nativepro',
+                suffix='T1w.nii.gz'
+            ),
+	    subject=config["subjects"],
+	    session=config["sessions"]
+         ) 
 
 rule proc_structural:
     input:
@@ -56,8 +59,7 @@ rule proc_structural:
             session='{session}',
             datatype='anat',
             space='nativepro',
-            suffix='T1w.nii.gz',
-            **inputs.subj_wildcards
+            suffix='T1w.nii.gz'
         )
     params:
         tmpDir="tmp",
