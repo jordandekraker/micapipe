@@ -1,6 +1,6 @@
 from snakebids import bids, generate_inputs, get_wildcard_constraints
 
-configfile: 'config/mvp.yml'
+configfile: 'config/snakebids.yml'
 
 # Global variables from the config file
 #bids_dir = config['bids_dir']
@@ -19,6 +19,9 @@ inputs = generate_inputs(
     validate=not config.get("plugins.validator.skip", False)
 )
 
+print(inputs["t1w"].zip_lists)
+#print(config)
+print(inputs["t1w"].wildcards)
 outputs = generate_inputs(
     bids_dir=config["bids_dir"],
     pybids_inputs=config["pybids_inputs"],
