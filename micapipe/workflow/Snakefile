@@ -1,3 +1,5 @@
+from snakebids import bids, generate_inputs, get_wildcard_constraints
+
 configfile: 'config/mvp.yml'
 
 # Global variables from the config file
@@ -51,6 +53,6 @@ rule proc_structural:
         """
         micapipe -sub sub-{wildcards.subject} -out {output_dir} -bids {bids_dir} \
                 -proc_structural -T1wStr {params.T1wStr} --mf {params.MF} \
-            -fs_licence {fs_licence} -ses {wildcards.session}
+            -fs_licence {params.fs_licence} -ses {wildcards.session}
         """
 
