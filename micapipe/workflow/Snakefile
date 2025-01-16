@@ -19,35 +19,20 @@ inputs = generate_inputs(
     validate=not config.get("plugins.validator.skip", False)
 )
 
-print(inputs["t1w"].zip_lists)
-#print(config)
-print(inputs["t1w"].wildcards)
-outputs = generate_inputs(
-    bids_dir=config["bids_dir"],
-    pybids_inputs=config["pybids_inputs"],
-    pybidsdb_dir=config.get("pybidsdb_dir"),
-    pybidsdb_reset=config.get("pybidsdb_reset"),
-    derivatives=config.get("derivatives", None),
-    participant_label=config.get("participant_label", None),
-    exclude_participant_label=config.get("exclude_participant_label", None),
-    validate=not config.get("plugins.validator.skip", False)
-)
-
 
 rule all:
     input:
-        expand(
+        inputs['t1w'].expand(
             bids(
                 root='/home/bic/eyang/processed_data2/micapipe_v0.2.0',
-                subject='{subject}',
-                session='{session}',
+                # subject='{subject}',
+                # session='{session}',
                 datatype='anat',
                 space='nativepro',
-                suffix='T1w.nii.gz'
-            ),
-	        subject=config["subjects"],
-	        session=config["sessions"]
-        ) 
+                suffix='T1w.nii.gz',
+                **inputs['t1w'].wildcards
+            )
+        ),
 
 rule proc_structural:
     input:
@@ -58,11 +43,12 @@ rule proc_structural:
     output:
         bids(
             root='/home/bic/eyang/processed_data2/micapipe_v0.2.0',
-            subject='{subject}',
-            session='{session}',
+            # subject='{subject}',
+            # session='{session}',
             datatype='anat',
             space='nativepro',
-            suffix='T1w.nii.gz'
+            suffix='T1w.nii.gz',
+            **inputs['t1w'].wildcards
         )
     params:
         tmpDir="tmp",

@@ -24,15 +24,15 @@ pybids_inputs:
       - subject
       - session
       - run
-  bold:
-    filters:
-      suffix: bold
-      extension: nii.gz
-    wildcards:
-      - subject
-      - run
-      - session
-      - acquisition
+  # bold:
+  #   filters:
+  #     suffix: bold
+  #     extension: nii.gz
+  #   wildcards:
+  #     - subject
+  #     - run
+  #     - session
+  #     - acquisition
 
 # configuration for the command-line parameters to make available
 # passed on the argparse add_argument()
