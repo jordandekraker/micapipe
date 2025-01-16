@@ -9,6 +9,18 @@ script_dir = config['script_dir']
 subjects = config['subjects']
 sessions = config['sessions']
 
+inputs = generate_inputs(
+    bids_dir=config["bids_dir"],
+    pybids_inputs=config["pybids_inputs"],
+    pybidsdb_dir=config.get("pybidsdb_dir"),
+    pybidsdb_reset=config.get("pybidsdb_reset"),
+    derivatives=config.get("derivatives", None),
+    participant_label=config.get("participant_label", None),
+    exclude_participant_label=config.get("exclude_participant_label", None),
+    validate=not config.get("plugins.validator.skip", False)
+)
+
+
 rule all:
     input:
         expand(
@@ -30,7 +42,8 @@ def get_t1w_input(wildcards):
 
 rule proc_structural:
     input:
-        get_t1w_input
+        # get_t1w_input
+        inputs['t1w'].expand()
     # output:
         # "/home/bic/eyang/processed_data2/micapipe_v0.2.0/sub-mri3T/ses-01/anat/sub-mri3T_ses-01_space-nativepro_T1w.nii.gz"
     output:
