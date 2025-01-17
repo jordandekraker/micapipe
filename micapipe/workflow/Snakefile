@@ -3,8 +3,8 @@ from snakebids import bids, generate_inputs, get_wildcard_constraints
 configfile: 'config/snakebids.yml'
 
 # Global variables from the config file
-#bids_dir = config['bids_dir']
-#output_dir = config['output_dir']
+bids_dir = config['bids_dir']
+output_dir = config['output_dir']
 #subjects = config['subjects']
 #sessions = config['sessions']
 
@@ -19,6 +19,7 @@ inputs = generate_inputs(
     validate=not config.get("plugins.validator.skip", False)
 )
 
+print(config)
 
 rule all:
     input:
