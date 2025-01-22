@@ -136,8 +136,7 @@ rule post_structural:
             )
     params:
         atlas=config["parameters"]["post_structural"].get("atlas", "default"),
-        if type(atlas) == list:
-            atlas = ",".join(atlas),
+        atlas = ",".join(atlas) if isinstance(atlas, list) else atlas
     threads: config.get("threads", 4),
     shell:
         """
