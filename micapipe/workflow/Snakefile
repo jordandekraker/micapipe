@@ -46,17 +46,14 @@ rule proc_structural:
             **inputs['t1w'].wildcards
         )
     params:
-        T1wStr=config["parameters"]["proc_structural"].get("T1wStr", None),
-        UNI=config["parameters"]["proc_structural"].get("UNI", None),
-        MF=config["parameters"]["proc_structural"].get("MF", None),
-        mf_str=f"-mf {MF}" if MF else "",
-        t1w_str=f"-T1wStr {T1wStr}" if T1wStr else "",
-        uni_str=f"-UNI {UNI}" if UNI else "",
+        T1wStr=config["parameters"]["proc_structural"].get("T1wStr", "DEFAULT"),
+        UNI=config["parameters"]["proc_structural"].get("UNI", "FALSE"),
+        MF=config["parameters"]["proc_structural"].get("MF", 3),
     threads: config.get("threads", 4),
     shell:
         """
         micapipe -sub sub-{wildcards.subject} -out {output_dir} -bids {bids_dir} \
-                -proc_structural {params.t1w_Str} {params.uni_str} {params.mf_str}\
+                -proc_structural -T1wStr {params.T1wStr} -mf {params.MF} -UNI {params.UNI}\
              -ses {wildcards.session} -threads {threads}
         """
 
@@ -74,15 +71,20 @@ rule proc_surf:
             )
         ),
     output:
-        bids(
-            root=f'{output_dir}/micapipe_v0.2.0',
-            datatype='surf',
+        inputs['t1w'].expand(
+            bids(
+                root=f'{output_dir}/micapipe_v0.2.0',
+                datatype='surf',
+                hemi="{hemi}",
+                space='nativepro',
+                surf="{surf}",
+                label="{label}",
+                suffix='.surf.gii',
+                **inputs['t1w'].wildcards
+            ),
             hemi=['L', 'R'],
-            space='nativepro',
             surf=['fsaverage5', 'fsLR32k', 'fsLR5k', 'fsnative'],
-            label=['midthickness', 'pial', 'white'],
-            suffix='.surf.gii',
-            **inputs['t1w'].wildcards
+            label=['midthickness', 'pial', 'white']
         )
     params:
         fs_licence=config["parameters"].get("fs_licence", None),
@@ -135,8 +137,8 @@ rule post_structural:
                 **inputs['t1w'].wildcards
             )
     params:
-        atlas=config["parameters"]["post_structural"].get("atlas", "default"),
-        atlas = ",".join(atlas) if isinstance(atlas, list) else atlas
+        atlas_raw=config["parameters"]["post_structural"].get("atlas", "default"),
+        atlas=",".join(atlas) if isinstance(atlas, list) else atlas
     threads: config.get("threads", 4),
     shell:
         """
