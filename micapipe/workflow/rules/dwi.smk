@@ -59,13 +59,18 @@ rule sc:
     
     output:
         get_sc_outputs(inputs, output_dir)
-    # params:
-    #     tmpDir="tmp",
-    #     sub=lambda w: w.subject,
-    #     ses=lambda w: w.session
+    params:
+        tracts=config["parameters"]["sc"]["tracts"],
+        keep_tck=config["parameters"]["sc"]["keep_tck"],
+        autoTract=config["parameters"]["sc"]["autoTract"],
+        dwi_acq=process_2_flags(config["parameters"]["proc_dwi"]["dwi_acq"], "dwi_acq", config["parameters"]["proc_dwi"]["dwi_str"]),
+        weighted_SC=config["parameters"]["sc"]["weighted_SC"],
+        #flags
+        tck=process_flags(config["parameters"]["sc"]["tck"], "tck " + config["parameters"]["sc"]["tck"]),
     threads: config.get("threads", 4),
     shell:
         """
         micapipe -sub sub-{wildcards.subject} -out {output_dir} -bids {bids_dir} -SC \
-            -threads {threads} -ses {wildcards.session}
+            -threads {threads} -ses {wildcards.session} -tracts {params.tracts} -keep_tck {params.keep_tck} \
+            -autoTract {params.autoTract} -weighted_SC {params.weighted_SC} {params.dwi_acq} {params.tck}
         """

@@ -80,3 +80,12 @@ parameters:
     no_bvalue_scaling: "FALSE"
     regSynth: "FALSE"
     dwi_upsample: "FALSE"
+
+  SC:
+    tracts: "40M"
+    keep_tck: "FALSE"
+    autoTract: "FALSE"
+    dwi_acq: "FALSE"
+    dwi_str: "DEFAULT"
+    weighted_SC: "FALSE"
+    tck: "FALSE" #tricky
