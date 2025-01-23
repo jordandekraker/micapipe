@@ -35,6 +35,16 @@ def get_post_structural_outputs(inputs, output_dir):
             **inputs['t1w'].wildcards
         )
 
+def get_geodesic_distance_outputs(inputs, output_dir):
+    return bids(
+            root=f'{output_dir}/micapipe_v0.2.0',
+            datatype='dist',
+            atlas='{parcellation}',
+            suffix='GD.shape.gii',
+            **inputs['t1w'].wildcards
+        )
+
+
 rule proc_structural:
     input:
         inputs['t1w'].expand()
@@ -102,50 +112,24 @@ rule post_structural:
             -threads {threads} -atlas {params.atlas} -ses {wildcards.session}
         """
 
-# # Rule for geodesic distance
-# rule proc_geodesic_distance:
-#     input:
-#         structural_output=inputs['t1w'].expand(
-#             bids(
-#                 root=f'{output_dir}/micapipe_v0.2.0',
-#                 datatype='anat',
-#                 space='nativepro',
-#                 suffix='T1w.nii.gz',
-#                 **inputs['t1w'].wildcards
-#             )
-#         ),
-#         surf_output=inputs['t1w'].expand(
-#             bids(
-#                 root=f'{output_dir}/micapipe_v0.2.0',
-#                 datatype='surf',
-#                 hemi=['L', 'R'],
-#                 space='nativepro',
-#                 surf=['fsaverage5', 'fsLR32k', 'fsLR5k', 'fsnative'],
-#                 label=['midthickness', 'pial', 'white'],
-#                 suffix='.surf.gii',
-#                 **inputs['t1w'].wildcards
-#             )
-#         ),
-#         post_structural_output=inputs['t1w'].expand(
-#             bids(
-#                 root=f'{output_dir}/micapipe_v0.2.0',
-#                 datatype='anat',
-#                 space='fsnative',
-#                 suffix='T1w.nii.gz',
-#                 **inputs['t1w'].wildcards
-#             )
-#         ),
-#     output:
-#         geodesic_distance=bids(
-#             root=f'{output_dir}/micapipe_v0.2.0',
-#             datatype='dist',
-#             atlas='{parcellation}',
-#             suffix='GD.shape.gii',
-#             **inputs['t1w'].wildcards
-#         )
-#     threads: config.get("threads", 4),
-#     shell:
-#         """
-#         micapipe -sub sub-{wildcards.subject} -out {output_dir} -bids {bids_dir} -GD \
-#             -threads {threads} -ses {wildcards.session}
-#         """
+# Rule for geodesic distance
+rule proc_geodesic_distance:
+    input:
+        structural_output=inputs['t1w'].expand(
+            get_structural_outputs(inputs, output_dir)
+        ),
+        surf_output=inputs['t1w'].expand(
+            get_surf_outputs(inputs, output_dir)
+        ),
+        post_structural_output=inputs['t1w'].expand(
+            get_post_structural_outputs(inputs, output_dir)
+        ),
+    output:
+        geodesic_distance=get_geodesic_distance_outputs(inputs, output_dir)
+    threads: config.get("threads", 4),
+    shell:
+        """
+        micapipe -sub sub-{wildcards.subject} -out {output_dir} -bids {bids_dir} -GD \
+            -threads {threads} -ses {wildcards.session}
+        """
+        
