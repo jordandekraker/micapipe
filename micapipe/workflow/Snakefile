@@ -32,5 +32,8 @@ rule all:
         ),
         inputs['t1w'].expand(
             get_post_structural_outputs(inputs, output_dir)
+        ),
+        inputs['t1w'].expand(
+            get_geodesic_distance_outputs(inputs, output_dir)
         )
 
