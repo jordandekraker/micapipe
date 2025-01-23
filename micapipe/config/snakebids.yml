@@ -67,7 +67,7 @@ parameters:
   post_structural:
     atlas: "DEFAULT"
 
-  dwi:
+  proc_dwi:
     dwi_main: "DEFAULT" # multiple inputs
     dwi_rpe: "DEFAULT" # multiple inputs
     dwi_processed: "FALSE"
