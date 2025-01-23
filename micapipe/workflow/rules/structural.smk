@@ -2,7 +2,8 @@ def get_all_structural_outputs(inputs, output_dir):
     return [
         get_structural_outputs(inputs, output_dir),
         get_surf_outputs(inputs, output_dir),
-        get_post_structural_outputs(inputs, output_dir)
+        get_post_structural_outputs(inputs, output_dir),
+        get_geodesic_distance_outputs(inputs, output_dir)
     ]
 
 def get_structural_outputs(inputs, output_dir):
@@ -46,7 +47,7 @@ def get_post_structural_outputs(inputs, output_dir):
 def get_geodesic_distance_outputs(inputs, output_dir):
     atlas = config["parameters"]["post_structural"].get("atlas", "DEFAULT")
     atlas = atlas if isinstance(atlas, list) else [atlas]
-    if atlas == "DEFAULT":
+    if atlas == "DEFAULT": #TODO: check atlases formatting
         atlas = "economo"
     return bids(
             root=f'{output_dir}/micapipe_v0.2.0',
