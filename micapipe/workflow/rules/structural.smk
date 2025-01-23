@@ -1,3 +1,10 @@
+def get_all_structural_outputs(inputs, output_dir):
+    return [
+        get_structural_outputs(inputs, output_dir),
+        get_surf_outputs(inputs, output_dir),
+        get_post_structural_outputs(inputs, output_dir)
+    ]
+
 def get_structural_outputs(inputs, output_dir):
     return bids(
             root=f'{output_dir}/micapipe_v0.2.0',
@@ -69,6 +76,12 @@ rule proc_surf:
             -surf_dir {params.surf_dir} -T1 {params.t1} -ses {wildcards.session}
         """
 
+def get_atlas(config):
+    atlas = config["parameters"]["post_structural"].get("atlas", "DEFAULT")
+    if isinstance(atlas, list):
+        return ",".join(atlas)
+    return atlas
+
 # Rule for post structural processing
 rule post_structural:
     input:
@@ -81,8 +94,7 @@ rule post_structural:
     output:
         post_structural=get_post_structural_outputs(inputs, output_dir)
     params:
-        atlas_raw=config["parameters"]["post_structural"].get("atlas", "DEFAULT"),
-        atlas=",".join(atlas) if isinstance(atlas, list) else atlas
+        atlas=get_atlas(config)
     threads: config.get("threads", 4),
     shell:
         """
