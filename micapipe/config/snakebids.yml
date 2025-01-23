@@ -56,3 +56,4 @@ parameters:
     # T1wStr: "run-2_T1w"
     UNI: "FALSE"
     MF: 45
+  proc_surface:
