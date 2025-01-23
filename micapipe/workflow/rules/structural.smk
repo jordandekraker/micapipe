@@ -46,7 +46,7 @@ def get_post_structural_outputs(inputs, output_dir):
 
 def get_geodesic_distance_outputs(inputs, output_dir):
     atlas = config["parameters"]["post_structural"].get("atlas", "DEFAULT")
-    atlas = atlas if isinstance(atlas, list) else [atlas]
+    atlas = atlas if isinstance(atlas, list) else atlas
     if atlas == "DEFAULT": #TODO: check atlases formatting
         atlas = "economo"
     return bids(
