@@ -51,10 +51,18 @@ containers:
   # fsl: 'docker://brainlife/fsl/6.0.0'
 
 parameters:
-  fs_license: "$FREESURFER_HOME/license.txt"
+  fs_license: "$FREESURFER_HOME/license.txt" #this is mandatory
+
   proc_structural:
-    # T1wStr: "run-2_T1w"
+    T1wStr: "DEFAULT"
     UNI: "FALSE"
-    MF: 45
+    MF: 3
+
   proc_surface:
     T1: "DEFAULT"
+    freesurfer: "FALSE"
+    surf_dir: "FALSE"
+    T1wStr: "DEFAULT"
+
+  post_structural:
+    atlas: "DEFAULT"
