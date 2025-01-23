@@ -15,7 +15,7 @@ def get_structural_outputs(inputs, output_dir):
 #             space='nativepro',
 #             surf=['fsaverage5', 'fsLR32k', 'fsLR5k', 'fsnative'],
 #             label=['midthickness', 'pial', 'white'],
-#             suffix='.surf.gii',
+#             suffix='surf.gii',
 #             **inputs['t1w'].wildcards
 #         )
 
@@ -23,13 +23,25 @@ def get_surf_outputs(inputs, output_dir):
     return bids(
             root=f'{output_dir}/micapipe_v0.2.0',
             datatype='surf',
-            hemi='L',
+            hemi="L",
             space='nativepro',
-            # surf='fsaverage5',
-            # label='midthickness',
-            suffix='surf-fsaverage5_label-midthickness.surf.gii',
+            surf='fsaverage5',
+            label='midthickness',
+            suffix='surf.gii',
             **inputs['t1w'].wildcards
         )
+
+# def get_surf_outputs(inputs, output_dir):
+#     return bids(
+#             root=f'{output_dir}/micapipe_v0.2.0',
+#             datatype='surf',
+#             hemi='L',
+#             space='nativepro',
+#             # surf='fsaverage5',
+#             # label='midthickness',
+#             suffix='surf-fsaverage5_label-midthickness.surf.gii',
+#             **inputs['t1w'].wildcards
+#         )
 
 rule proc_structural:
     input:
