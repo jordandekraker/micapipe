@@ -15,16 +15,9 @@ def get_structural_outputs(inputs, output_dir):
         )
 
 def get_surf_outputs(inputs, output_dir):
-    return bids(
-            root=f'{output_dir}/micapipe_v0.2.0',
-            datatype='surf',
-            hemi='L',
-            space='nativepro',
-            # surf='fsaverage5',
-            # label='midthickness',
-            suffix='surf-fsaverage5_label-midthickness.surf.gii',
-            **inputs['t1w'].wildcards
-        )
+    freesurfer = config["parameters"]["proc_surface"].get("freesurfer", "FALSE")
+    f_str= "freesurfer" if freesurfer else "fastsurfer"
+    return f"{output_dir}/micapipe_v0.2.0/{f_str}/sub-{inputs['t1w'].wildcards['subject']}_ses-{inputs['t1w'].wildcards['session']}"
 
 def get_post_structural_outputs(inputs, output_dir):
     outputs = []
@@ -43,7 +36,7 @@ def get_post_structural_outputs(inputs, output_dir):
             datatype='surf',
             hemi='L',
             space='nativepro',
-            surf='{template}',
+            surf='fsaverage5',
             suffix='label-pial.surf.gii',
             **inputs['t1w'].wildcards
         )
