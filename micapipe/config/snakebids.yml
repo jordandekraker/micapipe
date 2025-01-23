@@ -66,3 +66,17 @@ parameters:
 
   post_structural:
     atlas: "DEFAULT"
+
+  dwi:
+    dwi_main: "DEFAULT" # multiple inputs
+    dwi_rpe: "DEFAULT" # multiple inputs
+    dwi_processed: "FALSE"
+    rpe_all: "FALSE"
+    regAffine: "FALSE"
+    dwi_acq: "FALSE" # a bit tricky
+    dwi_str: "DEFAULT"
+    b0thr: 61
+    # the following are just flags
+    no_bvalue_scaling: "FALSE"
+    regSynth: "FALSE"
+    dwi_upsample: "FALSE"

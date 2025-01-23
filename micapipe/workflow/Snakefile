@@ -19,6 +19,7 @@ inputs = generate_inputs(
 
 del inputs['t1w'].wildcards['run']
 
+include: 'common.smk'
 include: 'rules/structural.smk'
 include: 'rules/dwi.smk'
 

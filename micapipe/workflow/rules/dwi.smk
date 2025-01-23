@@ -14,11 +14,25 @@ rule proc_dwi:
         ),
     output:
         processed_dwi=get_dwi_outputs(inputs, output_dir)
+    params:
+        dwi_main=process_multi_inputs(config["parameters"]["proc_dwi"]["dwi_main"]),
+        dwi_rpe=process_multi_inputs(config["parameters"]["proc_dwi"]["dwi_rpe"]),
+        dwi_processed=config["parameters"]["proc_dwi"]["dwi_processed"],
+        rpe_all=config["parameters"]["proc_dwi"]["rpe_all"],
+        regAffine=config["parameters"]["proc_dwi"]["regAffine"],
+        b0thr=config["parameters"]["proc_dwi"]["b0thr"],
+        # the following are just flags
+        dwi_acq=process_2_flags(config["parameters"]["proc_dwi"]["dwi_acq"], "dwi_acq", config["parameters"]["proc_dwi"]["dwi_str"]),
+        no_bvalue_scaling=process_flags(config["parameters"]["proc_dwi"]["no_bvalue_scaling"], "no_bvalue_scaling"),
+        regSynth=process_flags(config["parameters"]["proc_dwi"]["regSynth"], "regSynth"),
+        dwi_upsample=process_flags(config["parameters"]["proc_dwi"]["dwi_upsample"], "dwi_upsample"),
     threads: config.get("threads", 4),
     shell:
         """
         micapipe -sub sub-{wildcards.subject} -out {output_dir} -bids {bids_dir} -proc_dwi \
-            -threads {threads} -ses {wildcards.session}
+            -threads {threads} -ses {wildcards.session} -dwi_main {params.dwi_main} -dwi_rpe {params.dwi_rpe} \
+            -dwi_processed {params.dwi_processed} -rpe_all {params.rpe_all} -regAffine {params.regAffine} \
+            -b0thr {params.b0thr} {params.dwi_acq} {params.no_bvalue_scaling} {params.regSynth} {params.dwi_upsample}
         """
 
 # rule sc:
