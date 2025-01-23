@@ -40,6 +40,6 @@ rule all:
         # )
         # get_all_structural_outputs(inputs, output_dir)
         inputs['t1w'].expand(
-            get_dwi_outputs(inputs, output_dir)
+            get_sc_outputs(inputs, output_dir)
         )
 
