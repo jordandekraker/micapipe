@@ -1,10 +1,10 @@
 def get_all_structural_outputs(inputs, output_dir):
-    return [
-        get_structural_outputs(inputs, output_dir),
-        get_surf_outputs(inputs, output_dir),
-        get_post_structural_outputs(inputs, output_dir),
-        get_geodesic_distance_outputs(inputs, output_dir)
-    ]
+    outputs = []
+    outputs.extend(get_structural_outputs(inputs, output_dir))
+    outputs.extend(get_surf_outputs(inputs, output_dir))
+    outputs.extend(get_post_structural_outputs(inputs, output_dir))
+    outputs.extend(get_geodesic_distance_outputs(inputs, output_dir))
+    return outputs
 
 def get_structural_outputs(inputs, output_dir):
     return bids(
