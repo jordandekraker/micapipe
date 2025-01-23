@@ -13,8 +13,7 @@ rule proc_dwi:
             get_structural_outputs(inputs, output_dir)
         ),
     output:
-        processed_dwi=get_dwi_outputs
-    # params:
+        processed_dwi=get_dwi_outputs(inputs, output_dir)
     threads: config.get("threads", 4),
     shell:
         """
