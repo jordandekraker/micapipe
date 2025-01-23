@@ -25,9 +25,9 @@ def get_surf_outputs(inputs, output_dir):
             datatype='surf',
             hemi='L',
             space='nativepro',
-            surf='fsaverage5',
-            label='midthickness',
-            suffix='.surf.gii',
+            # surf='fsaverage5',
+            # label='midthickness',
+            suffix='surf-fsaverage5_label-midthickness.surf.gii',
             **inputs['t1w'].wildcards
         )
 

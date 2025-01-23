@@ -17,6 +17,8 @@ inputs = generate_inputs(
     validate=not config.get("plugins.validator.skip", False)
 )
 
+del inputs['t1w'].wildcards['run']
+
 include: 'rules/structural.smk'
 
 
