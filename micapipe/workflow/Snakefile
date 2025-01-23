@@ -23,12 +23,6 @@ include: 'rules/structural.smk'
 rule all:
     input:
         inputs['t1w'].expand(
-            bids(
-                root='/home/bic/eyang/processed_data2/micapipe_v0.2.0',
-                datatype='anat',
-                space='nativepro',
-                suffix='T1w.nii.gz',
-                **inputs['t1w'].wildcards
-            )
+            get_structural_outputs(inputs, output_dir)
         ),
 
