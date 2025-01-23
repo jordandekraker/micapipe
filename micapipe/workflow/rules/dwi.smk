@@ -5,6 +5,13 @@ def get_dwi_outputs(inputs, output_dir):
         **inputs["t1w"].wildcards
     )
 
+def get_sc_outputs(inputs, output_dir):
+    return bids(
+        root=f"{output_dir}/micapipe_v0.2.0",
+        datatype="dwi/connectome",
+        **inputs["t1w"].wildcards
+    )
+
 # rule for diffusion processing
 rule proc_dwi:
     input:
@@ -35,20 +42,30 @@ rule proc_dwi:
             -b0thr {params.b0thr} {params.dwi_acq} {params.no_bvalue_scaling} {params.regSynth} {params.dwi_upsample}
         """
 
-# rule sc:
-#     input:
-#         dwi_output=lambda w: f"{output_dir}/sub-{w.subject}/ses-{w.session}/dwi/processed_dwi.mif",
-#         post_structural=lambda w: f"{output_dir}/sub-{w.subject}/ses-{w.session}/anat/post_structural.nii.gz"
-#     output:
-#         sc_output=f"{output_dir}/sub-{{subject}}/ses-{{session}}/connectome/sc.csv"
-#     params:
-#         tmpDir="tmp",
-#         sub=lambda w: w.subject,
-#         ses=lambda w: w.session
-#     threads: config.get("threads", 4),
-#     shell:
-#         """
-#         bash {script_dir}/03_SC.sh \
-#             {bids_dir} {params.sub} {output_dir} {params.ses} \
-#             -threads {threads} -tmpDir {params.tmpDir}
-#         """
+rule sc:
+    input:
+        inputs['t1w'].expand(
+            get_structural_outputs(inputs, output_dir)
+        ),
+        inputs['t1w'].expand(
+            get_surf_outputs(inputs, output_dir)
+        ),
+        inputs['t1w'].expand(
+            get_post_structural_outputs(inputs, output_dir)
+        ),
+        inputs['t1w'].expand(
+            get_dwi_outputs(inputs, output_dir)
+        ),
+    
+    output:
+        get_sc_outputs(inputs, output_dir)
+    # params:
+    #     tmpDir="tmp",
+    #     sub=lambda w: w.subject,
+    #     ses=lambda w: w.session
+    threads: config.get("threads", 4),
+    shell:
+        """
+        micapipe -sub sub-{wildcards.subject} -out {output_dir} -bids {bids_dir} -SC \
+            -threads {threads} -ses {wildcards.session}
+        """
