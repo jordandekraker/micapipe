@@ -60,13 +60,13 @@ rule sc:
     output:
         get_sc_outputs(inputs, output_dir)
     params:
-        tracts=config["parameters"]["sc"]["tracts"],
-        keep_tck=config["parameters"]["sc"]["keep_tck"],
-        autoTract=config["parameters"]["sc"]["autoTract"],
+        tracts=config["parameters"]["SC"]["tracts"],
+        keep_tck=config["parameters"]["SC"]["keep_tck"],
+        autoTract=config["parameters"]["SC"]["autoTract"],
         dwi_acq=process_2_flags(config["parameters"]["proc_dwi"]["dwi_acq"], "dwi_acq", config["parameters"]["proc_dwi"]["dwi_str"]),
-        weighted_SC=config["parameters"]["sc"]["weighted_SC"],
+        weighted_SC=config["parameters"]["SC"]["weighted_SC"],
         #flags
-        tck=process_flags(config["parameters"]["sc"]["tck"], "tck " + config["parameters"]["sc"]["tck"]),
+        tck=process_flags(config["parameters"]["SC"]["tck"], "tck " + config["parameters"]["SC"]["tck"]),
     threads: config.get("threads", 4),
     shell:
         """
