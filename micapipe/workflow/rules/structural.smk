@@ -27,13 +27,28 @@ def get_surf_outputs(inputs, output_dir):
         )
 
 def get_post_structural_outputs(inputs, output_dir):
-    return bids(
+    outputs = []
+    outputs.append(
+        bids(
             root=f'{output_dir}/micapipe_v0.2.0',
             datatype='anat',
             space='fsnative',
             suffix='T1w.nii.gz',
             **inputs['t1w'].wildcards
         )
+    )
+    outputs.append(
+        bids(
+            root=f'{output_dir}/micapipe_v0.2.0',
+            datatype='surf',
+            hemi='L',
+            space='nativepro',
+            surf='{template}',
+            suffix='label-pial.surf.gii',
+            **inputs['t1w'].wildcards
+        )
+    )
+    return outputs
 
 def get_geodesic_distance_outputs(inputs, output_dir):
     return bids(
@@ -132,4 +147,3 @@ rule proc_geodesic_distance:
         micapipe -sub sub-{wildcards.subject} -out {output_dir} -bids {bids_dir} -GD \
             -threads {threads} -ses {wildcards.session}
         """
-        
