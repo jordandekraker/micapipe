@@ -22,6 +22,7 @@ del inputs['t1w'].wildcards['run']
 include: 'common.smk'
 include: 'rules/structural.smk'
 include: 'rules/dwi.smk'
+include: 'rules/func.smk'
 
 
 rule all:
@@ -40,6 +41,6 @@ rule all:
         # )
         # get_all_structural_outputs(inputs, output_dir)
         inputs['t1w'].expand(
-            get_sc_outputs(inputs, output_dir)
+            get_func_outputs(inputs, output_dir)
         )
 
