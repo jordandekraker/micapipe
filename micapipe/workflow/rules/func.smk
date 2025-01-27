@@ -5,7 +5,8 @@ def get_func_outputs(inputs, output_dir):
         space="func",
         desc="se",
         suffix="preproc.nii.gz",
-        **inputs["func"].wildcards
+        subject={subject},
+        session={session}
     )
 
 def get_func_inputs(inputs, output_dir):
