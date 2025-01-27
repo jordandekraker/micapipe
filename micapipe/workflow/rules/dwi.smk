@@ -12,7 +12,7 @@ def get_sc_outputs(inputs, output_dir):
         root=f"{output_dir}/micapipe_v0.2.0",
         datatype="dwi",
         space="dwi",
-        desc="iFOD2-{config['parameters']['SC']['tracts']}",
+        desc=f"iFOD2-{config['parameters']['SC']['tracts']}",
         suffix="tdi.nii.gz",
         subject="{subject}",
         session="{session}"
