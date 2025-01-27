@@ -34,7 +34,7 @@ pybids_inputs:
       - subject
       - session
       - task
-      - acq
+      - acquisition
 
   dwi:
     filters:
@@ -44,7 +44,7 @@ pybids_inputs:
     wildcards:
       - subject
       - session
-      - acq
+      - acquisition
       - dir
   # bold:
   #   filters:
