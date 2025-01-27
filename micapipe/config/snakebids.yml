@@ -24,6 +24,28 @@ pybids_inputs:
       - subject
       - session
       - run
+
+  func:
+    filters:
+      suffix: bold
+      extension: nii.gz
+
+    wildcards:
+      - subject
+      - session
+      - task
+      - acq
+
+  dwi:
+    filters:
+      suffix: dwi
+      extension: nii.gz
+
+    wildcards:
+      - subject
+      - session
+      - acq
+      - dir
   # bold:
   #   filters:
   #     suffix: bold

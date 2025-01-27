@@ -17,6 +17,10 @@ inputs = generate_inputs(
     validate=not config.get("plugins.validator.skip", False)
 )
 
+print("FUNC:", inputs['func'])
+print("DWI:", inputs['dwi'])
+
+
 del inputs['t1w'].wildcards['run']
 
 include: 'common.smk'

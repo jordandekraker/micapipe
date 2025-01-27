@@ -3,14 +3,14 @@ def get_dwi_outputs(inputs, output_dir):
         root=f"{output_dir}/micapipe_v0.2.0",
         datatype="dwi",
         **inputs["t1w"].wildcards
-    )
+    ) #TODO: needs to be a file
 
 def get_sc_outputs(inputs, output_dir):
     return bids(
         root=f"{output_dir}/micapipe_v0.2.0",
         datatype="dwi/connectome",
         **inputs["t1w"].wildcards
-    )
+    ) #needs to be a file
 
 # rule for diffusion processing
 rule proc_dwi:
