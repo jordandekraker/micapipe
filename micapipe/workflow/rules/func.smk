@@ -19,9 +19,7 @@ def get_func_inputs(inputs, output_dir):
 
 rule proc_func:
     input:
-        inputs['func'].expand(
-            get_func_inputs(inputs, output_dir)
-        ),
+        inputs['func'].expand(),
         inputs['t1w'].expand(
             get_structural_outputs(inputs, output_dir)
         ),
