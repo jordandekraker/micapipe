@@ -5,8 +5,8 @@ def get_func_outputs(inputs, output_dir):
         space="func",
         desc="se",
         suffix="preproc.nii.gz",
-        subject={subject},
-        session={session}
+        subject="{subject}",
+        session="{session}"
     )
 
 def get_func_inputs(inputs, output_dir):

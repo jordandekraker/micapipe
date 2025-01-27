@@ -20,8 +20,6 @@ inputs = generate_inputs(
 print("FUNC:", inputs['func'])
 print("DWI:", inputs['dwi'])
 
-print(inputs['func'].wildcards)
-
 del inputs['t1w'].wildcards['run']
 
 include: 'common.smk'
