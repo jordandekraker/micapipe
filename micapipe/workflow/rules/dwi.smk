@@ -2,15 +2,21 @@ def get_dwi_outputs(inputs, output_dir):
     return bids(
         root=f"{output_dir}/micapipe_v0.2.0",
         datatype="dwi",
-        **inputs["t1w"].wildcards
-    ) #TODO: needs to be a file
+        suffix="dwi.mif",
+        subject="{subject}",
+        session="{session}"
+    ) 
 
 def get_sc_outputs(inputs, output_dir):
     return bids(
         root=f"{output_dir}/micapipe_v0.2.0",
-        datatype="dwi/connectome",
-        **inputs["t1w"].wildcards
-    ) #needs to be a file
+        datatype="dwi",
+        space="dwi",
+        desc="iFOD2-{config['parameters']['SC']['tracts']}",
+        suffix="tdi.nii.gz",
+        subject="{subject}",
+        session="{session}"
+    ) 
 
 # rule for diffusion processing
 rule proc_dwi:
@@ -19,6 +25,7 @@ rule proc_dwi:
         inputs['t1w'].expand(
             get_structural_outputs(inputs, output_dir)
         ),
+        inputs['dwi'].expand()
     output:
         processed_dwi=get_dwi_outputs(inputs, output_dir)
     params:
@@ -53,7 +60,7 @@ rule sc:
         inputs['t1w'].expand(
             get_post_structural_outputs(inputs, output_dir)
         ),
-        inputs['t1w'].expand(
+        inputs['dwi'].expand(
             get_dwi_outputs(inputs, output_dir)
         ),
     
