@@ -2,6 +2,8 @@ def get_dwi_outputs(inputs, output_dir):
     return bids(
         root=f"{output_dir}/micapipe_v0.2.0",
         datatype="dwi",
+        space="dwi",
+        desc="preproc",
         suffix="dwi.mif",
         subject="{subject}",
         session="{session}"
