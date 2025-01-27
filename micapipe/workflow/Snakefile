@@ -44,7 +44,7 @@ rule all:
         #     get_geodesic_distance_outputs(inputs, output_dir)
         # )
         # get_all_structural_outputs(inputs, output_dir)
-        inputs['t1w'].expand(
+        inputs['func'].expand(
             get_func_outputs(inputs, output_dir)
         )
 
