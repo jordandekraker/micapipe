@@ -111,8 +111,6 @@ parameters:
     tck: "FALSE" #tricky
   
   proc_func:
-parameters:
-  proc_func:
     # Use "DEFAULT" to let your script apply its internal defaults if nothing is provided
     mainScanStr: "DEFAULT"       # -mainScanStr <str>
     func_pe: "DEFAULT"           # -func_pe <path>
