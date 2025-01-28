@@ -48,5 +48,8 @@ rule all:
         # )
         inputs['dwi'].expand(
             get_sc_outputs(inputs, output_dir)
+        ),
+        inputs["func"].expand(
+            get_func_outputs(inputs, output_dir)
         )
 
