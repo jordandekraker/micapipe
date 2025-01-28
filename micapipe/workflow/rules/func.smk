@@ -31,9 +31,33 @@ rule proc_func:
         )
     output:
         processed_func=get_func_outputs(inputs, output_dir)
+    params:
+        mainScanStr=config["parameters"]["proc_func"]["mainScanStr"],
+        func_pe=config["parameters"]["proc_func"]["func_pe"],
+        func_rpe=config["parameters"]["proc_func"]["func_rpe"],
+
+        # the following are just optional flags, default is False otherwise the expected value
+        mainScanRun = process_optional_flags(config["parameters"]["proc_func"]["mainScanRun"], "mainScanRun"),
+        phaseReversalRun=process_optional_flags(config["parameters"]["proc_func"]["phaseReversalRun"], "phaseReversalRun"),
+        topupConfig=process_optional_flags(config["parameters"]["proc_func"]["topupConfig"], "topupConfig"),
+        icafixTraining=process_optional_flags(config["parameters"]["proc_func"]["icafixTraining"], "icafixTraining"),
+
+        # the following are just flags
+        # Boolean flags that only appear if set to TRUE
+        smoothWithWB=process_flags(config["parameters"]["proc_func"]["smoothWithWB"], "smoothWithWB"),
+        NSR=process_flags(config["parameters"]["proc_func"]["NSR"], "NSR"),
+        GSR=process_flags(config["parameters"]["proc_func"]["GSR"], "GSR"),
+        noFIX=process_flags(config["parameters"]["proc_func"]["noFIX"], "noFIX"),
+        regAffine=process_flags(config["parameters"]["proc_func"]["regAffine"], "regAffine"),
+        dropTR=process_flags(config["parameters"]["proc_func"]["dropTR"], "dropTR"),
+        noFC=process_flags(config["parameters"]["proc_func"]["noFC"], "noFC"),
+
     threads: config.get("threads", 4)
     shell:
         """
         micapipe -sub sub-{wildcards.subject} -out {output_dir} -bids {bids_dir} -proc_func \
-            -threads {threads} -ses {wildcards.session}
+            -threads {threads} -ses {wildcards.session} -mainScanStr {params.mainScanStr} -func_pe {params.func_pe} \
+            -func_rpe {params.func_rpe} {params.mainScanRun} {params.phaseReversalRun} {params.topupConfig} \
+            {params.icafixTraining} {params.smoothWithWB} {params.NSR} {params.GSR} {params.noFIX} {params.regAffine} \
+            {params.dropTR} {params.noFC} 
         """

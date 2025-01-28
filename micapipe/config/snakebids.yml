@@ -95,8 +95,7 @@ parameters:
     dwi_processed: "FALSE"
     rpe_all: "FALSE"
     regAffine: "FALSE"
-    dwi_acq: "FALSE" # a bit tricky
-    dwi_str: "DEFAULT"
+    dwi_acq: "FALSE" 
     b0thr: 61
     # the following are just flags
     no_bvalue_scaling: "FALSE"
@@ -108,6 +107,29 @@ parameters:
     keep_tck: "FALSE"
     autoTract: "FALSE"
     dwi_acq: "FALSE"
-    dwi_str: "DEFAULT"
     weighted_SC: "FALSE"
     tck: "FALSE" #tricky
+  
+  proc_func:
+parameters:
+  proc_func:
+    # Use "DEFAULT" to let your script apply its internal defaults if nothing is provided
+    mainScanStr: "DEFAULT"       # -mainScanStr <str>
+    func_pe: "DEFAULT"           # -func_pe <path>
+    func_rpe: "DEFAULT"          # -func_rpe <path>
+
+    # Use "FALSE" for flags that your script checks as booleans
+    mainScanRun: "FALSE"         # -mainScanRun <num>
+    phaseReversalRun: "FALSE"    # -phaseReversalRun <num>
+    topupConfig: "FALSE"         # -topupConfig <str>
+    icafixTraining: "FALSE"      # -icafixTraining <str>
+
+    # Boolean flags
+    smoothWithWB: "FALSE"        # -smoothWithWB TODO: dont exist in the script
+    NSR: "FALSE"                 # -NSR
+    GSR: "FALSE"                 # -GSR
+    noFIX: "FALSE"               # -noFIX
+    sesAnat: "FALSE"             # -sesAnat <str>
+    regAffine: "FALSE"           # -regAffine
+    dropTR: "FALSE"              # -dropTR
+    noFC: "FALSE"                # -noFC

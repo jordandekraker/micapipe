@@ -15,3 +15,9 @@ def process_2_flags(key, name1, name2):
         return ""
     else:
         return "-" + name1 + " " + name2
+
+def process_optional_flags(key, name):
+    if key == "False":
+        return ""
+    else:
+        return "-" + name + " " + key

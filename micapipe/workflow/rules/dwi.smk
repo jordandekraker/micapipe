@@ -38,7 +38,7 @@ rule proc_dwi:
         regAffine=config["parameters"]["proc_dwi"]["regAffine"],
         b0thr=config["parameters"]["proc_dwi"]["b0thr"],
         # the following are just flags
-        dwi_acq=process_2_flags(config["parameters"]["proc_dwi"]["dwi_acq"], "dwi_acq", config["parameters"]["proc_dwi"]["dwi_str"]),
+        dwi_acq=process_optional_flags(config["parameters"]["proc_dwi"]["dwi_acq"], "dwi_acq"),
         no_bvalue_scaling=process_flags(config["parameters"]["proc_dwi"]["no_bvalue_scaling"], "no_bvalue_scaling"),
         regSynth=process_flags(config["parameters"]["proc_dwi"]["regSynth"], "regSynth"),
         dwi_upsample=process_flags(config["parameters"]["proc_dwi"]["dwi_upsample"], "dwi_upsample"),
@@ -72,7 +72,7 @@ rule sc:
         tracts=config["parameters"]["SC"]["tracts"],
         keep_tck=config["parameters"]["SC"]["keep_tck"],
         autoTract=config["parameters"]["SC"]["autoTract"],
-        dwi_acq=process_2_flags(config["parameters"]["proc_dwi"]["dwi_acq"], "dwi_acq", config["parameters"]["proc_dwi"]["dwi_str"]),
+        dwi_acq=process_optional_flags(config["parameters"]["proc_dwi"]["dwi_acq"], "dwi_acq"),
         weighted_SC=config["parameters"]["SC"]["weighted_SC"],
         #flags
         tck=process_flags(config["parameters"]["SC"]["tck"], "tck " + config["parameters"]["SC"]["tck"]),
