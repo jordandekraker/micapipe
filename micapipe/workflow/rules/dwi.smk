@@ -54,9 +54,9 @@ rule proc_dwi:
 
 rule sc:
     input:
-        inputs['t1w'].expand(
-            get_structural_outputs(inputs, output_dir)
-        ),
+        # inputs['t1w'].expand(
+        #     get_structural_outputs(inputs, output_dir)
+        # ),
         inputs['t1w'].expand(
             get_surf_outputs(inputs, output_dir)
         ),

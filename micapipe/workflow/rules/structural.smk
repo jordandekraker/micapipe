@@ -117,9 +117,9 @@ def get_atlas(config):
 # Rule for post structural processing
 rule post_structural:
     input:
-        structural_output=inputs['t1w'].expand(
-            get_structural_outputs(inputs, output_dir)
-        ),
+        # structural_output=inputs['t1w'].expand(
+        #     get_structural_outputs(inputs, output_dir)
+        # ),
         surf_output=inputs['t1w'].expand(
             get_surf_outputs(inputs, output_dir)
         ),
@@ -137,12 +137,12 @@ rule post_structural:
 # Rule for geodesic distance
 rule proc_geodesic_distance:
     input:
-        structural_output=inputs['t1w'].expand(
-            get_structural_outputs(inputs, output_dir)
-        ),
-        surf_output=inputs['t1w'].expand(
-            get_surf_outputs(inputs, output_dir)
-        ),
+        # structural_output=inputs['t1w'].expand(
+        #     get_structural_outputs(inputs, output_dir)
+        # ),
+        # surf_output=inputs['t1w'].expand(
+        #     get_surf_outputs(inputs, output_dir)
+        # ),
         post_structural_output=inputs['t1w'].expand(
             get_post_structural_outputs(inputs, output_dir)
         ),
