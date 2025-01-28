@@ -10,11 +10,12 @@ def get_dwi_outputs(inputs, output_dir):
     ) 
 
 def get_sc_outputs(inputs, output_dir):
+    tracts = config['parameters']['SC']['tracts'].replace("M", "000000")
     return bids(
         root=f"{output_dir}/micapipe_v0.2.0",
         datatype="dwi",
         space="dwi",
-        desc=f"iFOD2-{config['parameters']['SC']['tracts'].replace("M", "000000")}", #TODO: check this
+        desc=f"iFOD2-{tracts}", #TODO: check this
         suffix="tdi.nii.gz",
         subject="{subject}",
         session="{session}"
