@@ -4,6 +4,7 @@ def get_mpc_outputs(inputs, output_dir):
         root=f"{output_dir}/micapipe_v0.2.0",
         datatype="xfm",     
         subject="{subject}",
+        session="{session}",
         suffix="from-T1map_to-fsnative_0GenericAffine.mat"     # TODO: check how to get acq?
     )
 
