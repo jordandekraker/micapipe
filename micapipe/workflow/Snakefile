@@ -30,6 +30,7 @@ include: 'rules/mpc.smk'
 include: 'rules/flair.smk'
 include: 'rules/swm.smk'
 include: 'rules/mpc_swm.smk'
+include: 'rules/qc.smk'
 
 
 rule all:
@@ -71,4 +72,5 @@ rule all:
         inputs["t1w"].expand(
             get_qc_subj_outputs(inputs, output_dir)
         ),
+        get_qc_outputs(inputs, output_dir)
 
