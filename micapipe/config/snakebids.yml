@@ -145,3 +145,13 @@ parameters:
   proc_flair:
     flairScanStr: "DEFAULT"
 
+  proc_mpc_swm:
+    # Optional parameters
+    microstructural_img: "FALSE"
+    microstructural_reg: "FALSE"
+    mpc_acq: "FALSE"
+
+    # Boolean flags
+    regSynth: "FALSE"
+    reg_nonlinear: "FALSE"
+

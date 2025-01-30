@@ -29,6 +29,7 @@ include: 'rules/func.smk'
 include: 'rules/mpc.smk'
 include: 'rules/flair.smk'
 include: 'rules/swm.smk'
+include: 'rules/mpc_swm.smk'
 
 
 rule all:
@@ -63,5 +64,8 @@ rule all:
         ),
         inputs["t1w"].expand(
             get_swm_outputs(inputs, output_dir)
-        )
+        ),
+        inputs["t1w"].expand(
+            get_mpc_swm_outputs(inputs, output_dir)
+        ),
 
