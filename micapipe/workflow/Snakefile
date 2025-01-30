@@ -26,6 +26,7 @@ include: 'common.smk'
 include: 'rules/structural.smk'
 include: 'rules/dwi.smk'
 include: 'rules/func.smk'
+include: 'rules/mpc.smk'
 
 
 rule all:
@@ -51,5 +52,8 @@ rule all:
         ),
         inputs["func"].expand(
             get_func_outputs(inputs, output_dir)
+        ),
+        inputs["t1w"].expand(
+            get_mpc_outputs(inputs, output_dir)
         )
 
