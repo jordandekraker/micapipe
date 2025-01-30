@@ -20,10 +20,19 @@ rule qc_subj:
     output:
         get_qc_subj_outputs(inputs, output_dir)
     threads: config.get("threads", 4)
+    params:
+        tracts=process_optional_flags(
+            config["parameters"]["qc_subj"]["tracts"],
+            "tracts"
+        ),
+        tmpDir=process_optional_flags(
+            config["parameters"]["qc_subj"]["tmpDir"],
+            "tmpDir"
+        ),
     shell:
         """
         micapipe -sub sub-{wildcards.subject} -out {output_dir} -bids {bids_dir} -QC_subj \
-            -threads {threads} -ses {wildcards.session} 
+            -threads {threads} -ses {wildcards.session} {params.tracts} {params.tmpDir}
         """
 
 rule qc:

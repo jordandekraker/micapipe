@@ -154,4 +154,8 @@ parameters:
     # Boolean flags
     regSynth: "FALSE"
     reg_nonlinear: "FALSE"
+  
+  qc_subj:
+    tracts: "FALSE"
+    tmpDir: "FALSE"
 
