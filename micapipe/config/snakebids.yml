@@ -142,3 +142,6 @@ parameters:
     regSynth: "FALSE"
     reg_nonlinear: "FALSE"
 
+  proc_flair:
+    flairScanStr: "DEFAULT"
+

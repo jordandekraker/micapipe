@@ -27,6 +27,8 @@ include: 'rules/structural.smk'
 include: 'rules/dwi.smk'
 include: 'rules/func.smk'
 include: 'rules/mpc.smk'
+include: 'rules/flair.smk'
+include: 'rules/swm.smk'
 
 
 rule all:
@@ -55,5 +57,11 @@ rule all:
         ),
         inputs["t1w"].expand(
             get_mpc_outputs(inputs, output_dir)
+        ),
+        inputs["t1w"].expand(
+            get_flair_outputs(inputs, output_dir)
+        ),
+        inputs["t1w"].expand(
+            get_swm_outputs(inputs, output_dir)
         )
 
