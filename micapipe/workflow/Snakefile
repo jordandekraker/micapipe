@@ -68,4 +68,7 @@ rule all:
         inputs["t1w"].expand(
             get_mpc_swm_outputs(inputs, output_dir)
         ),
+        inputs["t1w"].expand(
+            get_qc_subj_outputs(inputs, output_dir)
+        ),
 
