@@ -116,7 +116,7 @@ parameters:
     func_pe: "DEFAULT"           # -func_pe <path>
     func_rpe: "DEFAULT"          # -func_rpe <path>
 
-    # Use "FALSE" for flags that your script checks as booleans
+    # Optional parameters
     mainScanRun: "FALSE"         # -mainScanRun <num>
     phaseReversalRun: "FALSE"    # -phaseReversalRun <num>
     topupConfig: "FALSE"         # -topupConfig <str>
@@ -131,3 +131,14 @@ parameters:
     regAffine: "FALSE"           # -regAffine
     dropTR: "FALSE"              # -dropTR
     noFC: "FALSE"                # -noFC
+
+  proc_mpc:
+    # Optional parameters
+    microstructural_img: "FALSE"
+    microstructural_reg: "FALSE"
+    mpc_acq: "FALSE"
+
+    # Boolean flags
+    regSynth: "FALSE"
+    reg_nonlinear: "FALSE"
+
