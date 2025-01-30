@@ -16,7 +16,7 @@ rule proc_flair:
             get_post_structural_outputs(inputs, output_dir)
         ),
     output:
-        get_mpc_outputs(inputs, output_dir)
+        get_flair_outputs(inputs, output_dir)
     params:
         flairScanStr=config["parameters"]["proc_flair"]["flairScanStr"],
     threads: config.get("threads", 4)
