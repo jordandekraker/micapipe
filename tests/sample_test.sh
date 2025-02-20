@@ -8,7 +8,7 @@
 # input arguments
 version=0.2.3
 container=singularity
-container_img=micapipe_v0.2.3.sif
+container_img=/data_/mica1/01_programs/micapipe-v0.2.0/micapipe_v0.2.3.sif
 
 # Local variables
 bids=/data/mica3/BIDS_CI/rawdata
