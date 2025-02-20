@@ -42,6 +42,9 @@ function run_test(){
       command="singularity run --writable-tmpfs --containall -B ${bids}:/bids -B ${out}:/out -B ${tmp}:/tmp -B ${fs_lic}:/opt/licence.txt ${container_img}"
     fi
 
+  # Session 01 and 02
+    for i in 01; do
+    ses=ses-${i}
 
     # 3T multi session one shot workflow -fastsurfer
     sub=sub-mri3T
