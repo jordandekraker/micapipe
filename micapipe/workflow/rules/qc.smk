@@ -31,7 +31,7 @@ rule qc_subj:
         ),
     shell:
         """
-        micapipe -sub sub-{wildcards.subject} -out {output_args} -bids {bids_args} -QC_subj \
+        {command} -sub sub-{wildcards.subject} -out {output_args} -bids {bids_args} -QC_subj \
             -threads {threads} -ses {wildcards.session} {params.tracts} {params.tmpDir}
         """
 

@@ -11,13 +11,13 @@ def process_multi_inputs(key):
         return key
 
 def process_2_flags(key, name1, name2):
-    if key == "False":
+    if key.lower() == "false":
         return ""
     else:
         return "-" + name1 + " " + name2
 
 def process_optional_flags(key, name):
-    if key == "False":
+    if key.lower() == "false":
         return ""
     else:
         return "-" + name + " " + key

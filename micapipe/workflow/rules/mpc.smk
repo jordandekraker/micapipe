@@ -42,7 +42,7 @@ rule proc_mpc:
     threads: config.get("threads", 4)
     shell:
         """
-        micapipe -sub sub-{wildcards.subject} -out {output_args} -bids {bids_args} -MPC \
+        {command} -sub sub-{wildcards.subject} -out {output_args} -bids {bids_args} -MPC \
             -threads {threads} -ses {wildcards.session} \
             {params.microstructural_img} {params.microstructural_reg} \
             {params.mpc_acq} {params.regSynth} {params.reg_nonlinear}

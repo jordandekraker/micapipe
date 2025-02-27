@@ -21,7 +21,7 @@ rule proc_swm:
     threads: config.get("threads", 4)
     shell:
         """
-        micapipe -sub sub-{wildcards.subject} -out {output_args} -bids {bids_args} -SWM \
+        {command} -sub sub-{wildcards.subject} -out {output_args} -bids {bids_args} -SWM \
             -threads {threads} -ses {wildcards.session} \
             
         """

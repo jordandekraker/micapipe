@@ -22,7 +22,7 @@ rule proc_flair:
     threads: config.get("threads", 4)
     shell:
         """
-        micapipe -sub sub-{wildcards.subject} -out {output_args} -bids {bids_args} -proc_flair \
+        {command} -sub sub-{wildcards.subject} -out {output_args} -bids {bids_args} -proc_flair \
             -threads {threads} -ses {wildcards.session} \
             -flairScanStr {params.flairScanStr}
         """

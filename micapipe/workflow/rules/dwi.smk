@@ -46,7 +46,7 @@ rule proc_dwi:
     threads: config.get("threads", 4),
     shell:
         """
-        micapipe -sub sub-{wildcards.subject} -out {output_args} -bids {bids_args} -proc_dwi \
+        {command} -sub sub-{wildcards.subject} -out {output_args} -bids {bids_args} -proc_dwi \
             -threads {threads} -ses {wildcards.session} -dwi_main {params.dwi_main} -dwi_rpe {params.dwi_rpe} \
             -dwi_processed {params.dwi_processed} -rpe_all {params.rpe_all} -regAffine {params.regAffine} \
             -b0thr {params.b0thr} {params.dwi_acq} {params.no_bvalue_scaling} {params.regSynth} {params.dwi_upsample}
@@ -80,7 +80,7 @@ rule sc:
     threads: config.get("threads", 4),
     shell:
         """
-        micapipe -sub sub-{wildcards.subject} -out {output_args} -bids {bids_args} -SC \
+        {command} -sub sub-{wildcards.subject} -out {output_args} -bids {bids_args} -SC \
             -threads {threads} -ses {wildcards.session} -tracts {params.tracts} -keep_tck {params.keep_tck} \
             -autoTract {params.autoTract} -weighted_SC {params.weighted_SC} {params.dwi_acq} {params.tck}
         """
