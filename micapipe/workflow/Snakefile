@@ -5,6 +5,27 @@ configfile: 'config/snakebids.yml'
 # Global variables from the config file
 bids_dir = config['bids_dir']
 output_dir = config['output_dir']
+tmp_dir = config['tmp_dir']
+
+container_mode = config.get("container", {}).get("mode", "original")
+container_image = config.get("container", {}).get("image", "")
+
+if container_mode == "docker":
+    command = (
+        f"docker run -ti --rm "
+        f"-v {bids_dir}:/bids -v {output_dir}:/out -v {tmp_dir}:/tmp "
+        f"-v {config['parameters']['fs_license']}:/opt/licence.txt "
+        f"{container_image}"
+    )
+elif container_mode == "singularity":
+    command = (
+        f"singularity run --writable-tmpfs --containall "
+        f"-B {bids_dir}:/bids -B {output_dir}:/out -B {tmp_dir}:/tmp "
+        f"-B {config['parameters']['fs_license']}:/opt/licence.txt "
+        f"{container_image}"
+    )
+else:
+    command = "micapipe"
 
 inputs = generate_inputs(
     bids_dir=config["bids_dir"],
@@ -35,9 +56,9 @@ include: 'rules/qc.smk'
 
 rule all:
     input:
-        # inputs['t1w'].expand(
-        #     get_structural_outputs(inputs, output_dir)
-        # ),
+        inputs['t1w'].expand(
+            get_structural_outputs(inputs, output_dir)
+        ),
         # inputs['t1w'].expand(
         #     get_surf_outputs(inputs, output_dir)
         # ),
@@ -51,26 +72,26 @@ rule all:
         # inputs['func'].expand(
         #     get_func_outputs(inputs, output_dir)
         # )
-        inputs['dwi'].expand(
-            get_sc_outputs(inputs, output_dir)
-        ),
-        inputs["func"].expand(
-            get_func_outputs(inputs, output_dir)
-        ),
-        inputs["t1w"].expand(
-            get_mpc_outputs(inputs, output_dir)
-        ),
-        inputs["t1w"].expand(
-            get_flair_outputs(inputs, output_dir)
-        ),
-        inputs["t1w"].expand(
-            get_swm_outputs(inputs, output_dir)
-        ),
-        inputs["t1w"].expand(
-            get_mpc_swm_outputs(inputs, output_dir)
-        ),
-        inputs["t1w"].expand(
-            get_qc_subj_outputs(inputs, output_dir)
-        ),
-        get_qc_outputs(inputs, output_dir)
+        # inputs['dwi'].expand(
+        #     get_sc_outputs(inputs, output_dir)
+        # ),
+        # inputs["func"].expand(
+        #     get_func_outputs(inputs, output_dir)
+        # ),
+        # inputs["t1w"].expand(
+        #     get_mpc_outputs(inputs, output_dir)
+        # ),
+        # inputs["t1w"].expand(
+        #     get_flair_outputs(inputs, output_dir)
+        # ),
+        # inputs["t1w"].expand(
+        #     get_swm_outputs(inputs, output_dir)
+        # ),
+        # inputs["t1w"].expand(
+        #     get_mpc_swm_outputs(inputs, output_dir)
+        # ),
+        # inputs["t1w"].expand(
+        #     get_qc_subj_outputs(inputs, output_dir)
+        # ),
+        # get_qc_outputs(inputs, output_dir)
 

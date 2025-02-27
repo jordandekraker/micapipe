@@ -70,7 +70,10 @@ parse_args:
 
 # Docker and singularity containers may be defined here
 containers:
-  # fsl: 'docker://brainlife/fsl/6.0.0'
+  mode: "singularity"
+  image: "/data_/mica1/01_programs/micapipe-v0.2.0/micapipe_v0.2.3.sif"
+
+tmp: "/data_/mica1/03_projects/enning/micapipe/tmp"
 
 parameters:
   fs_license: "$FREESURFER_HOME/license.txt" #this is mandatory
