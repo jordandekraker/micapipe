@@ -27,6 +27,13 @@ elif container_mode == "singularity":
 else:
     command = "micapipe"
 
+if container_mode in ["docker", "singularity"]:
+    bids_dir = "/bids"
+    output_dir = "/out"
+else:
+    bids_dir = bids_dir
+
+
 inputs = generate_inputs(
     bids_dir=config["bids_dir"],
     pybids_inputs=config["pybids_inputs"],
