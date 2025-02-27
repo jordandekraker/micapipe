@@ -1,8 +1,8 @@
 def process_flags(key, name):
-    if key == "False":
-        return ""
-    else:
+    if key.lower() == "true":
         return "-" + name
+    else:
+        return ""
 
 def process_multi_inputs(key):
     if isinstance(key, list):
