@@ -74,13 +74,13 @@ rule proc_structural:
         structural_output=get_structural_outputs(inputs, output_dir)
     params:
         T1wStr=config["parameters"]["proc_structural"].get("T1wStr", "DEFAULT"),
-        UNI=config["parameters"]["proc_structural"].get("UNI", "FALSE"),
+        UNI=process_flags(config["parameters"]["proc_structural"].get("UNI", "FALSE"), 'uni'),
         MF=config["parameters"]["proc_structural"].get("MF", 3),
     threads: config.get("threads", 4),
     shell:
         """
         {command} -sub sub-{wildcards.subject} -out {output_dir} -bids {bids_dir} \
-                -proc_structural -T1wStr {params.T1wStr} -mf {params.MF} -UNI {params.UNI}\
+                -proc_structural -T1wStr {params.T1wStr} -mf {params.MF} {params.UNI}\
              -ses {wildcards.session} -threads {threads}
         """
 
