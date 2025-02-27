@@ -81,7 +81,7 @@ rule proc_structural:
         """
         {command} -sub sub-{wildcards.subject} -out {output_args} -bids {bids_args} \
                 -proc_structural -T1wStr {params.T1wStr} -mf {params.MF} {params.UNI}\
-             -ses {wildcards.session} -threads {threads}
+             -ses {wildcards.session} -threads {threads} -fs_licence {fs_licence_args}
         """
 
 
