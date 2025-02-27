@@ -31,7 +31,7 @@ rule qc_subj:
         ),
     shell:
         """
-        micapipe -sub sub-{wildcards.subject} -out {output_dir} -bids {bids_dir} -QC_subj \
+        micapipe -sub sub-{wildcards.subject} -out {output_args} -bids {bids_args} -QC_subj \
             -threads {threads} -ses {wildcards.session} {params.tracts} {params.tmpDir}
         """
 
@@ -45,5 +45,5 @@ rule qc:
     threads: config.get("threads", 4)
     shell:
         """
-        micapipe -out {output_dir} -QC
+        micapipe -out {output_args} -QC
         """

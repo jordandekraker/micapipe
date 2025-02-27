@@ -28,10 +28,11 @@ else:
     command = "micapipe"
 
 if container_mode in ["docker", "singularity"]:
-    bids_dir = "/bids"
-    output_dir = "/out"
+    bids_args = "/bids"
+    output_args = "/out"
 else:
-    bids_dir = bids_dir
+    bids_args = bids_dir
+    output_args = output_dir
 
 
 inputs = generate_inputs(

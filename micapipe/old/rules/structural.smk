@@ -19,7 +19,7 @@ rule proc_structural:
     threads: config.get("threads", 4),
     shell:
         """
-        micapipe -sub sub-{wildcards.subject} -out {output_dir} -bids {bids_dir} \
+        micapipe -sub sub-{wildcards.subject} -out {output_args} -bids {bids_args} \
                 -proc_structural -T1wStr {params.T1wStr} -mf {params.MF} -UNI {params.UNI}\
              -ses {wildcards.session} -threads {threads}
         """
@@ -66,7 +66,7 @@ rule proc_structural:
 #     threads: config.get("threads", 4),
 #     shell:
 #         """
-#         micapipe -sub sub-{wildcards.subject} -out {output_dir} -bids {bids_dir} -proc_surf \
+#         micapipe -sub sub-{wildcards.subject} -out {output_args} -bids {bids_args} -proc_surf \
 #             -threads {threads} -fs_licence {params.fs_licence} {params.t1w_str} {params.freesurfer_str} \
 #             {params.surf_dir_str} {params.t1_str} -ses {wildcards.session}
 #         """
@@ -109,7 +109,7 @@ rule proc_structural:
 #     threads: config.get("threads", 4),
 #     shell:
 #         """
-#         micapipe -sub sub-{wildcards.subject} -out {output_dir} -bids {bids_dir} -post_structural \
+#         micapipe -sub sub-{wildcards.subject} -out {output_args} -bids {bids_args} -post_structural \
 #             -threads {threads} -atlas {params.atlas} -ses {wildcards.session}
 #         """
 
@@ -157,6 +157,6 @@ rule proc_structural:
 #     threads: config.get("threads", 4),
 #     shell:
 #         """
-#         micapipe -sub sub-{wildcards.subject} -out {output_dir} -bids {bids_dir} -GD \
+#         micapipe -sub sub-{wildcards.subject} -out {output_args} -bids {bids_args} -GD \
 #             -threads {threads} -ses {wildcards.session}
 #         """

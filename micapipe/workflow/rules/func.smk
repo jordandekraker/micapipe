@@ -55,7 +55,7 @@ rule proc_func:
     threads: config.get("threads", 4)
     shell:
         """
-        micapipe -sub sub-{wildcards.subject} -out {output_dir} -bids {bids_dir} -proc_func \
+        micapipe -sub sub-{wildcards.subject} -out {output_args} -bids {bids_args} -proc_func \
             -threads {threads} -ses {wildcards.session} -mainScanStr {params.mainScanStr} -func_pe {params.func_pe} \
             -func_rpe {params.func_rpe} {params.mainScanRun} {params.phaseReversalRun} {params.topupConfig} \
             {params.icafixTraining} {params.smoothWithWB} {params.NSR} {params.GSR} {params.noFIX} {params.regAffine} \

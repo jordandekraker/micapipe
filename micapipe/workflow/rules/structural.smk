@@ -79,7 +79,7 @@ rule proc_structural:
     threads: config.get("threads", 4),
     shell:
         """
-        {command} -sub sub-{wildcards.subject} -out {output_dir} -bids {bids_dir} \
+        {command} -sub sub-{wildcards.subject} -out {output_args} -bids {bids_args} \
                 -proc_structural -T1wStr {params.T1wStr} -mf {params.MF} {params.UNI}\
              -ses {wildcards.session} -threads {threads}
         """
@@ -103,7 +103,7 @@ rule proc_surf:
     threads: config.get("threads", 4),
     shell:
         """
-        {command} -sub sub-{wildcards.subject} -out {output_dir} -bids {bids_dir} -proc_surf \
+        {command} -sub sub-{wildcards.subject} -out {output_args} -bids {bids_args} -proc_surf \
             -threads {threads} -fs_licence {params.fs_licence} -T1wStr {params.T1wStr} -freesurfer {params.freesurfer} \
             -surf_dir {params.surf_dir} -T1 {params.t1} -ses {wildcards.session}
         """
@@ -130,7 +130,7 @@ rule post_structural:
     threads: config.get("threads", 4),
     shell:
         """
-        {command} -sub sub-{wildcards.subject} -out {output_dir} -bids {bids_dir} -post_structural \
+        {command} -sub sub-{wildcards.subject} -out {output_args} -bids {bids_args} -post_structural \
             -threads {threads} -atlas {params.atlas} -ses {wildcards.session}
         """
 
@@ -151,6 +151,6 @@ rule proc_geodesic_distance:
     threads: config.get("threads", 4),
     shell:
         """
-        {command} -sub sub-{wildcards.subject} -out {output_dir} -bids {bids_dir} -GD \
+        {command} -sub sub-{wildcards.subject} -out {output_args} -bids {bids_args} -GD \
             -threads {threads} -ses {wildcards.session}
         """
