@@ -104,7 +104,7 @@ rule proc_surf:
     shell:
         """
         {command} -sub sub-{wildcards.subject} -out {output_args} -bids {bids_args} -proc_surf \
-            -threads {threads} -fs_licence {params.fs_licence} -T1wStr {params.T1wStr} -freesurfer {params.freesurfer} \
+            -threads {threads} -fs_licence {fs_licence_args} -T1wStr {params.T1wStr} -freesurfer {params.freesurfer} \
             -surf_dir {params.surf_dir} -T1 {params.t1} -ses {wildcards.session}
         """
 

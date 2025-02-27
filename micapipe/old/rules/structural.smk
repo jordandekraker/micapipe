@@ -67,7 +67,7 @@ rule proc_structural:
 #     shell:
 #         """
 #         micapipe -sub sub-{wildcards.subject} -out {output_args} -bids {bids_args} -proc_surf \
-#             -threads {threads} -fs_licence {params.fs_licence} {params.t1w_str} {params.freesurfer_str} \
+#             -threads {threads} -fs_licence {fs_licence_args} {params.t1w_str} {params.freesurfer_str} \
 #             {params.surf_dir_str} {params.t1_str} -ses {wildcards.session}
 #         """
 

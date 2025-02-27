@@ -30,9 +30,11 @@ else:
 if container_mode in ["docker", "singularity"]:
     bids_args = "/bids"
     output_args = "/out"
+    fs_licence_args = "/opt/licence.txt"
 else:
     bids_args = bids_dir
     output_args = output_dir
+    fs_licence_args = config["parameters"]["fs_license"]
 
 
 inputs = generate_inputs(
