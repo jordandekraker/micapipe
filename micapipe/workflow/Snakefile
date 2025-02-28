@@ -95,3 +95,4 @@ def get_final_outputs(inputs, output_dir, modules):
 rule all:
     input:
         get_final_outputs(inputs, output_dir, modules),
+        inputs["t1w"].expand(get_geodesic_distance_outputs(inputs, output_dir)),
