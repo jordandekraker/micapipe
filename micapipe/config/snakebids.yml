@@ -68,6 +68,15 @@ parse_args:
     action: "store_true"
     default: False
 
+  --module:
+    help: |
+      The module to run. The module is a python script that contains the main
+      function to run the analysis. The module should be in the same directory
+      as the snakefile.
+    dest: "module"
+    required: True
+    type: str
+
 # Docker and singularity containers may be defined here
 container:
   mode: "singularity"
