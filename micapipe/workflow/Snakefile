@@ -65,6 +65,8 @@ include: 'rules/mpc_swm.smk'
 include: 'rules/qc.smk'
 
 modules = config.get("module", [])
+if not isinstance(modules, list):
+    modules = [modules]
 print("MODULES:", modules)
 input_list = []
 if "structural" in modules:
