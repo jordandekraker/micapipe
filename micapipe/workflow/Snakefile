@@ -2,7 +2,7 @@ from snakebids import bids, generate_inputs, get_wildcard_constraints
 
 configfile: 'config/snakebids.yml'
 
-if args.module == "test":
+if config["module"] == "test":
     print("Running in test mode")
 
 # Global variables from the config file
