@@ -65,6 +65,7 @@ include: 'rules/mpc_swm.smk'
 include: 'rules/qc.smk'
 
 modules = config.get("module", [])
+print("MODULES:", modules)
 input_list = []
 if "structural" in modules:
     include: 'rules/structural.smk'
@@ -107,7 +108,7 @@ if "qc" in modules:
 
 
 
-
+print("INPUTS:", input_list)
 
 rule all:
     input:
