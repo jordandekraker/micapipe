@@ -91,8 +91,9 @@ def get_final_outputs(inputs, output_dir, modules):
         input_list += get_qc_outputs(inputs, output_dir)
     return input_list
 
+print("GD output path:", get_geodesic_distance_outputs(inputs, output_dir))
 
 rule all:
     input:
-        get_final_outputs(inputs, output_dir, modules),
+        # get_final_outputs(inputs, output_dir, modules),
         inputs["t1w"].expand(get_geodesic_distance_outputs(inputs, output_dir)),
