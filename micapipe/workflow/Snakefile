@@ -69,27 +69,29 @@ if not isinstance(modules, list):
     modules = [modules]
 print("MODULES:", modules)
 
-input_list = []
-if "structural" in modules:
-    print("STRUCTURAL")
-    input_list += inputs["t1w"].expand(get_all_structural_outputs(inputs, output_dir))
-if "dwi" in modules:
-    input_list += inputs["dwi"].expand(get_sc_outputs(inputs, output_dir))
-if "func" in modules:
-    input_list += inputs["func"].expand(get_func_outputs(inputs, output_dir))
-if "mpc" in modules:
-    input_list += inputs["t1w"].expand(get_mpc_outputs(inputs, output_dir))
-if "flair" in modules:
-    input_list += inputs["t1w"].expand(get_flair_outputs(inputs, output_dir))
-if "swm" in modules:
-    input_list += inputs["t1w"].expand(get_swm_outputs(inputs, output_dir))
-if "mpc_swm" in modules:
-    input_list += inputs["t1w"].expand(get_mpc_swm_outputs(inputs, output_dir))
-if "qc" in modules:
-    input_list += get_qc_outputs(inputs, output_dir)
 
-print("INPUTS:", input_list)
+def get_final_outputs(inputs, output_dir, modules):
+    input_list = []
+    if "structural" in modules:
+        print("STRUCTURAL")
+        input_list += inputs["t1w"].expand(get_all_structural_outputs(inputs, output_dir))
+    if "dwi" in modules:
+        input_list += inputs["dwi"].expand(get_sc_outputs(inputs, output_dir))
+    if "func" in modules:
+        input_list += inputs["func"].expand(get_func_outputs(inputs, output_dir))
+    if "mpc" in modules:
+        input_list += inputs["t1w"].expand(get_mpc_outputs(inputs, output_dir))
+    if "flair" in modules:
+        input_list += inputs["t1w"].expand(get_flair_outputs(inputs, output_dir))
+    if "swm" in modules:
+        input_list += inputs["t1w"].expand(get_swm_outputs(inputs, output_dir))
+    if "mpc_swm" in modules:
+        input_list += inputs["t1w"].expand(get_mpc_swm_outputs(inputs, output_dir))
+    if "qc" in modules:
+        input_list += get_qc_outputs(inputs, output_dir)
+    return input_list
+
 
 rule all:
     input:
-        input_list
+        get_final_outputs(inputs, output_dir, modules)
