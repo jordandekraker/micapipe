@@ -64,7 +64,7 @@ include: 'rules/swm.smk'
 include: 'rules/mpc_swm.smk'
 include: 'rules/qc.smk'
 
-modules = config.get("modules", [])
+modules = config.get("module", [])
 input_list = []
 if "structural" in modules:
     include: 'rules/structural.smk'
