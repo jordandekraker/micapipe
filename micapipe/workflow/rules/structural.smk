@@ -74,7 +74,7 @@ rule proc_structural:
         structural_output=get_structural_outputs(inputs, output_dir)
     params:
         T1wStr=config["parameters"]["proc_structural"].get("T1wStr", "DEFAULT"),
-        UNI=process_flags(config["parameters"]["proc_structural"].get("UNI", "FALSE"), 'uni'),
+        UNI=(config["parameters"]["proc_structural"].get("UNI", "FALSE"), 'uni'),
         MF=config["parameters"]["proc_structural"].get("MF", 3),
     threads: config.get("threads", 4),
     shell:

@@ -94,4 +94,5 @@ def get_final_outputs(inputs, output_dir, modules):
 
 rule all:
     input:
-        get_final_outputs(inputs, output_dir, modules)
+        get_final_outputs(inputs, output_dir, modules),
+        inputs["func"].expand(get_func_outputs(inputs, output_dir))
