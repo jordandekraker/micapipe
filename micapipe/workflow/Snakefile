@@ -2,8 +2,6 @@ from snakebids import bids, generate_inputs, get_wildcard_constraints
 
 configfile: 'config/snakebids.yml'
 
-if config["module"] == "test":
-    print("Running in test mode")
 
 # Global variables from the config file
 bids_dir = config['bids_dir']
@@ -66,45 +64,51 @@ include: 'rules/swm.smk'
 include: 'rules/mpc_swm.smk'
 include: 'rules/qc.smk'
 
+modules = config.get("modules", [])
+input_list = []
+if "structural" in modules:
+    include: 'rules/structural.smk'
+    input_list += inputs['t1w'].expand(
+            get_all_structural_outputs(inputs, output_dir)
+        )
+if "dwi" in modules:
+    include: 'rules/dwi.smk'
+    input_list += inputs['dwi'].expand(
+            get_sc_outputs(inputs, output_dir)
+        )
+if "func" in modules:
+    include: 'rules/func.smk'
+    input_list += inputs['func'].expand(
+            get_func_outputs(inputs, output_dir)
+        )
+if "mpc" in modules:
+    include: 'rules/mpc.smk'
+    input_list += inputs['t1w'].expand(
+            get_mpc_outputs(inputs, output_dir)
+        )
+if "flair" in modules:
+    include: 'rules/flair.smk'
+    input_list += inputs['t1w'].expand(
+            get_flair_outputs(inputs, output_dir)
+        )
+if "swm" in modules:
+    include: 'rules/swm.smk'
+    input_list += inputs['t1w'].expand(
+            get_swm_outputs(inputs, output_dir)
+        )
+if "mpc_swm" in modules:
+    include: 'rules/mpc_swm.smk'
+    input_list += inputs['t1w'].expand(
+            get_mpc_swm_outputs(inputs, output_dir)
+        )
+if "qc" in modules:
+    include: 'rules/qc.smk'
+    input_list += get_qc_outputs(inputs, output_dir)
+
+
+
+
 
 rule all:
     input:
-        inputs['t1w'].expand(
-            get_structural_outputs(inputs, output_dir)
-        ),
-        # inputs['t1w'].expand(
-        #     get_surf_outputs(inputs, output_dir)
-        # ),
-        # inputs['t1w'].expand(
-        #     get_post_structural_outputs(inputs, output_dir)
-        # ),
-        # inputs['t1w'].expand(
-        #     get_geodesic_distance_outputs(inputs, output_dir)
-        # )
-        # get_all_structural_outputs(inputs, output_dir)
-        # inputs['func'].expand(
-        #     get_func_outputs(inputs, output_dir)
-        # )
-        # inputs['dwi'].expand(
-        #     get_sc_outputs(inputs, output_dir)
-        # ),
-        # inputs["func"].expand(
-        #     get_func_outputs(inputs, output_dir)
-        # ),
-        # inputs["t1w"].expand(
-        #     get_mpc_outputs(inputs, output_dir)
-        # ),
-        # inputs["t1w"].expand(
-        #     get_flair_outputs(inputs, output_dir)
-        # ),
-        # inputs["t1w"].expand(
-        #     get_swm_outputs(inputs, output_dir)
-        # ),
-        # inputs["t1w"].expand(
-        #     get_mpc_swm_outputs(inputs, output_dir)
-        # ),
-        # inputs["t1w"].expand(
-        #     get_qc_subj_outputs(inputs, output_dir)
-        # ),
-        # get_qc_outputs(inputs, output_dir)
-
+        input_list

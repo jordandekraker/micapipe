@@ -75,7 +75,18 @@ parse_args:
       as the snakefile.
     dest: "module"
     required: True
-    type: str
+    default: "structural"
+    choices:
+      - "structural"
+      - "surface"
+      - "dwi"
+      - "SC"
+      - "func"
+      - "mpc"
+      - "flair"
+      - "mpc_swm"
+      - "qc"
+      - "test"
 
 # Docker and singularity containers may be defined here
 container:
