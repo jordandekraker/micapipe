@@ -13,5 +13,5 @@ jobs:
         uses: actions/checkout@v2
       - name: Run Micapipe Test
         run: |
-          chmod +x sample_test.sh
+          chmod +x ./tests/sample_test.sh
           ./tests/sample_test.sh
