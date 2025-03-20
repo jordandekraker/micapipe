@@ -211,10 +211,11 @@ ENV ANTSPATH="/opt/ants-2.3.4/" \
 #     | tar -xz -C /opt/ants-2.3.4 --strip-components 1
 RUN echo "Downloading ANTs ..." \
  && mkdir -p /opt/ants-2.3.4 \
- && curl -fsSL https://github.com/ANTsX/ANTs/releases/download/v2.3.4/ants-Linux-centos6_x86_64-v2.3.4.tar.gz \
+ && curl -fsSL https://github.com/ANTsX/ANTs/releases/download/v2.3.4/ants-Linux-x86_64-v2.3.4.tar.gz \
     | tar -xz -C /opt/ants-2.3.4 --strip-components 1
 
-    
+
+
 RUN bash -c 'apt-get update && apt-get install -y gnupg2 && wget -O- http://neuro.debian.net/lists/xenial.de-fzj.full | tee /etc/apt/sources.list.d/neurodebian.sources.list && apt-key adv --recv-keys --keyserver hkps://keyserver.ubuntu.com 0xA5D32F012649A5A9 && apt-get update && apt-get install -y connectome-workbench=1.3.2-2~nd16.04+1'
 
 RUN bash -c 'cd /opt/ && wget http://www.fmrib.ox.ac.uk/~steve/ftp/fix1.068.tar.gz && tar xvfz fix1.068.tar.gz && rm fix1.068.tar.gz'
