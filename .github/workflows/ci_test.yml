@@ -2,15 +2,32 @@ name: CI - Micapipe Test
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [master]
   pull_request:
 
 jobs:
   run-micapipe:
     runs-on: self-hosted
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+
+      - name: Build Micapipe Docker image
+        run: docker build -t micapipe:test -f ./micapipe/old/Dockerfile .
+
+      - name: Install Singularity
+        uses: sylabs/actions/setup-singularity@v1
+        with:
+          version: '3.11.0'
+
+      - name: Build Singularity (.sif)
+        run: singularity build micapipe.sif docker-daemon://micapipe:test
+
+      - name: Point test script at new .sif
+        run: |
+          sed -i "s|^container_img=.*|container_img=$(pwd)/micapipe.sif|" tests/sample_test.sh
+
       - name: Run Micapipe Test
         run: |
           chmod +x ./tests/sample_test.sh
