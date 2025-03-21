@@ -227,8 +227,107 @@ RUN bash -c 'cd /opt/ && wget http://www.fmrib.ox.ac.uk/~steve/ftp/fix1.068.tar.
 RUN test "$(getent passwd mica)" || useradd --no-user-group --create-home --shell /bin/bash mica
 USER mica
 
+# ENV CONDA_DIR="/opt/miniconda-22.11.1" \
+#     PATH="/opt/miniconda-22.11.1/bin:$PATH"
+# RUN export PATH="/opt/miniconda-22.11.1/bin:$PATH" \
+#     && echo "Downloading Miniconda installer ..." \
+#     && conda_installer="/tmp/miniconda.sh" \
+#     && curl -fsSL --retry 5 -o "$conda_installer" https://repo.anaconda.com/miniconda/Miniconda3-py39_22.11.1-1-Linux-x86_64.sh \
+#     && bash "$conda_installer" -b -p /opt/miniconda-22.11.1 \
+#     && rm -f "$conda_installer" \
+#     && conda config --system --prepend channels conda-forge \
+#     && conda config --system --set auto_update_conda false \
+#     && conda config --system --set show_channel_urls true \
+#     && sync && conda clean -y --all && sync \
+#     && conda create -y -q --name micapipe \
+#     && conda install -y -q --name micapipe \
+#            "python" \
+#            "aiohttp" \
+#            "aiosignal" \
+#            "asn1crypto" \
+#            "async-timeout" \
+#            "astropy" \
+#            "attrs" \
+#            "bokeh" \
+#            "cffi" \
+#            "charset-normalizer" \
+#            "click" \
+#            "contourpy" \
+#            "cryptography" \
+#            "cycler" \
+#            "fonttools" \
+#            "frozenlist" \
+#            "html5lib" \
+#            "idna" \
+#            "importlib-resources" \
+#            "jinja2" \
+#            "joblib" \
+#            "kiwisolver" \
+#            "lxml" \
+#            "markupsafe" \
+#            "matplotlib==3.4.3" \
+#            "multidict" \
+#            "nibabel==4.0.2" \
+#            "nilearn" \
+#            "numpy==1.21.5" \
+#            "packaging" \
+#            "pandas==1.4.4" \
+#            "pillow" \
+#            "pycparser" \
+#            "pyhanko-certvalidator" \
+#            "pyparsing" \
+#            "pypdf" \
+#            "pypng" \
+#            "python-bidi" \
+#            "python-dateutil" \
+#            "pytz" \
+#            "pytz-deprecation-shim" \
+#            "pyyaml" \
+#            "qrcode" \
+#            "reportlab" \
+#            "requests" \
+#            "scikit-learn" \
+#            "scikit-fmm" \
+#            "scipy" \
+#            "six" \
+#            "svglib" \
+#            "threadpoolctl" \
+#            "tinycss2" \
+#            "tornado" \
+#            "typing-extensions" \
+#            "tzlocal" \
+#            "uritools" \
+#            "urllib3" \
+#            "vtk==9.2.2" \
+#            "webencodings" \
+#            "wslink" \
+#            "yarl" \
+#            "zipp" \
+#            "pyvirtualdisplay==3.0" \
+#     && sync && conda clean -y --all && sync \
+#     && bash -c "source activate micapipe \
+#     &&   pip install --no-cache-dir  \
+#              "argparse==1.1" \
+#              "brainspace==0.1.10" \
+#              "tedana==0.0.12" \
+#              "duecredit" \
+#              "pyhanko==0.17.2" \
+#              "mapca==0.0.3" \
+#              "xhtml2pdf==0.2.9" \
+#              "oscrypto==1.3.0" \
+#              "tzdata==2022.7" \
+#              "arabic-reshaper==3.0.0" \
+#              "cssselect2==0.7.0" \
+#              "pygeodesic==0.1.8" \
+#              "seaborn==0.11.2"" \
+#     && rm -rf ~/.cache/pip/* \
+#     && sync \
+#     && sed -i '$isource activate micapipe' $ND_ENTRYPOINT
+
+# RUN bash -c 'source activate micapipe && conda install -c mrtrix3 mrtrix3==3.0.1 && pip install git+https://github.com/MICA-MNI/ENIGMA.git'
 ENV CONDA_DIR="/opt/miniconda-22.11.1" \
     PATH="/opt/miniconda-22.11.1/bin:$PATH"
+
 RUN export PATH="/opt/miniconda-22.11.1/bin:$PATH" \
     && echo "Downloading Miniconda installer ..." \
     && conda_installer="/tmp/miniconda.sh" \
@@ -239,78 +338,77 @@ RUN export PATH="/opt/miniconda-22.11.1/bin:$PATH" \
     && conda config --system --set auto_update_conda false \
     && conda config --system --set show_channel_urls true \
     && sync && conda clean -y --all && sync \
-    && conda create -y -q --name micapipe \
-    && conda install -y -q --name micapipe \
-           "python" \
-           "aiohttp" \
-           "aiosignal" \
-           "asn1crypto" \
-           "async-timeout" \
-           "astropy" \
-           "attrs" \
-           "bokeh" \
-           "cffi" \
-           "charset-normalizer" \
-           "click" \
-           "contourpy" \
-           "cryptography" \
-           "cycler" \
-           "fonttools" \
-           "frozenlist" \
-           "html5lib" \
-           "idna" \
-           "importlib-resources" \
-           "jinja2" \
-           "joblib" \
-           "kiwisolver" \
-           "lxml" \
-           "markupsafe" \
+    && conda install -y -n base -c conda-forge mamba \
+    && mamba create -y -q --name micapipe python=3.9 \
+    && mamba install -y -q --name micapipe \
+           aiohttp \
+           aiosignal \
+           asn1crypto \
+           async-timeout \
+           astropy \
+           attrs \
+           bokeh \
+           cffi \
+           charset-normalizer \
+           click \
+           contourpy \
+           cryptography \
+           cycler \
+           fonttools \
+           frozenlist \
+           html5lib \
+           idna \
+           importlib-resources \
+           jinja2 \
+           joblib \
+           kiwisolver \
+           lxml \
+           markupsafe \
            "matplotlib==3.4.3" \
-           "multidict" \
+           multidict \
            "nibabel==4.0.2" \
-           "nilearn" \
+           nilearn \
            "numpy==1.21.5" \
-           "packaging" \
+           packaging \
            "pandas==1.4.4" \
-           "pillow" \
-           "pycparser" \
-           "pyhanko-certvalidator" \
-           "pyparsing" \
-           "pypdf" \
-           "pypng" \
-           "python-bidi" \
-           "python-dateutil" \
-           "pytz" \
-           "pytz-deprecation-shim" \
-           "pyyaml" \
-           "qrcode" \
-           "reportlab" \
-           "requests" \
-           "scikit-learn" \
-           "scikit-fmm" \
-           "scipy" \
-           "six" \
-           "svglib" \
-           "threadpoolctl" \
-           "tinycss2" \
-           "tornado" \
-           "typing-extensions" \
-           "tzlocal" \
-           "uritools" \
-           "urllib3" \
+           pillow \
+           pycparser \
+           pyhanko-certvalidator \
+           pyparsing \
+           pypdf \
+           pypng \
+           python-bidi \
+           python-dateutil \
+           pytz \
+           pytz-deprecation-shim \
+           pyyaml \
+           qrcode \
+           reportlab \
+           requests \
+           scikit-learn \
+           scikit-fmm \
+           scipy \
+           six \
+           svglib \
+           threadpoolctl \
+           tinycss2 \
+           tornado \
+           typing-extensions \
+           tzlocal \
+           uritools \
+           urllib3 \
            "vtk==9.2.2" \
-           "webencodings" \
-           "wslink" \
-           "yarl" \
-           "zipp" \
+           webencodings \
+           wslink \
+           yarl \
+           zipp \
            "pyvirtualdisplay==3.0" \
-    && sync && conda clean -y --all && sync \
-    && bash -c "source activate micapipe \
-    &&   pip install --no-cache-dir  \
+    && sync && mamba clean -y --all && sync \
+    && mamba run -n micapipe pip install --no-cache-dir \
              "argparse==1.1" \
              "brainspace==0.1.10" \
              "tedana==0.0.12" \
-             "duecredit" \
+             duecredit \
              "pyhanko==0.17.2" \
              "mapca==0.0.3" \
              "xhtml2pdf==0.2.9" \
@@ -319,12 +417,14 @@ RUN export PATH="/opt/miniconda-22.11.1/bin:$PATH" \
              "arabic-reshaper==3.0.0" \
              "cssselect2==0.7.0" \
              "pygeodesic==0.1.8" \
-             "seaborn==0.11.2"" \
+             "seaborn==0.11.2" \
     && rm -rf ~/.cache/pip/* \
     && sync \
     && sed -i '$isource activate micapipe' $ND_ENTRYPOINT
 
-RUN bash -c 'source activate micapipe && conda install -c mrtrix3 mrtrix3==3.0.1 && pip install git+https://github.com/MICA-MNI/ENIGMA.git'
+RUN mamba run -n micapipe conda install -y -q -c mrtrix3 mrtrix3==3.0.1 \
+    && mamba run -n micapipe pip install git+https://github.com/MICA-MNI/ENIGMA.git
+
 
 ENV PATH="/opt/FastSurfer:$PATH"
 ENV FASTSURFER_HOME=/opt/FastSurfer
