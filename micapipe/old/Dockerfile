@@ -210,7 +210,13 @@ ENV ANTSPATH="/opt/ants-2.3.4" \
 # Copy ANTs v2.3.4 binaries from kaczmarj/ants:2.3.4
 COPY --from=kaczmarj/ants:2.3.4 /opt/ants /opt/ants-2.3.4
 
-RUN bash -c 'apt-get update && apt-get install -y gnupg2 && wget -O- http://neuro.debian.net/lists/xenial.de-fzj.full | tee /etc/apt/sources.list.d/neurodebian.sources.list && apt-key adv --recv-keys --keyserver hkps://keyserver.ubuntu.com 0xA5D32F012649A5A9 && apt-get update && apt-get install -y connectome-workbench=1.3.2-2~nd16.04+1'
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends gnupg2 wget ca-certificates && \
+    wget -O /etc/apt/sources.list.d/neurodebian.sources.list http://neuro.debian.net/lists/xenial.de-fzj.full && \
+    wget -O- https://neurodebian.org/_static/neurodebian.gpg.key | apt-key add - && \
+    apt-get update && \
+    apt-get install -y connectome-workbench=1.3.2-2~nd16.04+1 && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN bash -c 'cd /opt/ && wget http://www.fmrib.ox.ac.uk/~steve/ftp/fix1.068.tar.gz && tar xvfz fix1.068.tar.gz && rm fix1.068.tar.gz'
 
