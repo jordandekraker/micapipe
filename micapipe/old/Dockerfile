@@ -441,7 +441,7 @@ ENV FASTSURFER_HOME=/opt/FastSurfer
 # Clone FastSurfer from GitHub and switch to master (instead of stable)
 RUN git clone https://github.com/Deep-MI/FastSurfer.git /opt/FastSurfer \
     && cd /opt/FastSurfer \
-    && git checkout main \
+    && git checkout stable \
     && ls /opt/FastSurfer
 
 # Use the FastSurfer environment file to create the conda environment
