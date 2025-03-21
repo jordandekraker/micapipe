@@ -450,7 +450,7 @@ RUN cd /opt/FastSurfer \
   && chmod +x /tmp/miniconda.sh \
   && /tmp/miniconda.sh -b -p /opt/conda \
   && rm /tmp/miniconda.sh \
-  && conda env create -f fastsurfer_env_cpu.yml'
+  && conda env create -f ./env/fastsurfer.yml'
 
 # Install FastSurferCNN module
 ENV PYTHONPATH="${PYTHONPATH}:/opt/FastSurfer"
