@@ -426,31 +426,17 @@ RUN mamba run -n micapipe conda install -y -q -c mrtrix3 mrtrix3==3.0.1 \
     && mamba run -n micapipe pip install git+https://github.com/MICA-MNI/ENIGMA.git
 
 
-# ENV PATH="/opt/FastSurfer:$PATH"
-# ENV FASTSURFER_HOME=/opt/FastSurfer
-# RUN git clone https://github.com/Deep-MI/FastSurfer.git /opt/FastSurfer && cd /opt/FastSurfer && git checkout stable && ls /opt/FastSurfer
-# RUN cd /opt/FastSurfer \
-#   && bash -c 'wget --no-check-certificate -qO /tmp/miniconda.sh https://repo.continuum.io/miniconda/Miniconda3-py38_4.11.0-Linux-x86_64.sh \
-#   && chmod +x /tmp/miniconda.sh \
-#   && /tmp/miniconda.sh -b -p /opt/conda \
-#   && rm /tmp/miniconda.sh \
-#   && conda env create -f ./fastsurfer_env_cpu.yml'
 ENV PATH="/opt/FastSurfer:$PATH"
 ENV FASTSURFER_HOME=/opt/FastSurfer
-
-# Clone FastSurfer from GitHub and switch to master (instead of stable)
-RUN git clone https://github.com/Deep-MI/FastSurfer.git /opt/FastSurfer \
-    && cd /opt/FastSurfer \
-    && git checkout stable \
-    && ls /opt/FastSurfer
-
-# Use the FastSurfer environment file to create the conda environment
+RUN git clone https://github.com/Deep-MI/FastSurfer.git /opt/FastSurfer && cd /opt/FastSurfer && git checkout stable && ls /opt/FastSurfer
 RUN cd /opt/FastSurfer \
   && bash -c 'wget --no-check-certificate -qO /tmp/miniconda.sh https://repo.continuum.io/miniconda/Miniconda3-py38_4.11.0-Linux-x86_64.sh \
   && chmod +x /tmp/miniconda.sh \
   && /tmp/miniconda.sh -b -p /opt/conda \
   && rm /tmp/miniconda.sh \
-  && conda env create -f ./env/fastsurfer.yml'
+  && /opt/conda/bin/conda create -y -n fastsurfer_cpu python=3.10/16 \
+  && /opt/conda/bin/conda run -n fastsurfer_cpu pip install --upgrade pip \
+  && /opt/conda/bin/conda run -n fastsurfer_cpu pip install -r ./requirements.cpu.txt'
 
 # Install FastSurferCNN module
 ENV PYTHONPATH="${PYTHONPATH}:/opt/FastSurfer"
