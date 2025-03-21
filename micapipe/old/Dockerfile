@@ -428,19 +428,24 @@ RUN mamba run -n micapipe conda install -y -q -c mrtrix3 mrtrix3==3.0.1 \
 
 ENV PATH="/opt/FastSurfer:$PATH"
 ENV FASTSURFER_HOME=/opt/FastSurfer
-RUN git clone https://github.com/Deep-MI/FastSurfer.git /opt/FastSurfer && cd /opt/FastSurfer && git checkout stable && ls /opt/FastSurfer
-RUN cd /opt/FastSurfer \
-  && bash -c 'wget --no-check-certificate -qO /tmp/miniconda.sh https://repo.continuum.io/miniconda/Miniconda3-py38_4.11.0-Linux-x86_64.sh \
-  && chmod +x /tmp/miniconda.sh \
-  && /tmp/miniconda.sh -b -p /opt/conda \
-  && rm /tmp/miniconda.sh \
-  && /opt/conda/bin/conda create -y -n fastsurfer_cpu python=3.10/16 \
-  && /opt/conda/bin/conda run -n fastsurfer_cpu pip install --upgrade pip \
-  && /opt/conda/bin/conda run -n fastsurfer_cpu pip install -r ./requirements.cpu.txt'
+
+# Clone FastSurfer (the 'stable' branch is fine)
+RUN git clone https://github.com/Deep-MI/FastSurfer.git /opt/FastSurfer \
+    && cd /opt/FastSurfer \
+    && git checkout stable
+
+# Use existing Miniconda to create fastsurfer_cpu env and install from requirements.cpu.txt
+RUN /opt/miniconda-22.11.1/bin/conda create -y -n fastsurfer_cpu python=3.10.16 \
+    && /opt/miniconda-22.11.1/bin/conda run -n fastsurfer_cpu pip install --upgrade pip \
+    && /opt/miniconda-22.11.1/bin/conda run -n fastsurfer_cpu pip install -r /opt/FastSurfer/requirements.cpu.txt
+    
 
 # Install FastSurferCNN module
+# ENV PYTHONPATH="${PYTHONPATH}:/opt/FastSurfer"
+# RUN bash -c "source activate fastsurfer_cpu && cd /opt/FastSurfer && python FastSurferCNN/download_checkpoints.py --all && source deactivate"
+# Set up Python path and download CNN checkpoints
 ENV PYTHONPATH="${PYTHONPATH}:/opt/FastSurfer"
-RUN bash -c "source activate fastsurfer_cpu && cd /opt/FastSurfer && python FastSurferCNN/download_checkpoints.py --all && source deactivate"
+RUN /opt/miniconda-22.11.1/bin/conda run -n fastsurfer_cpu python /opt/FastSurfer/FastSurferCNN/download_checkpoints.py
 
 USER root
 
