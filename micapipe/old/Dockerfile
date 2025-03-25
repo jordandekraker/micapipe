@@ -442,10 +442,13 @@ RUN git clone https://github.com/Deep-MI/FastSurfer.git /opt/FastSurfer \
     && cd /opt/FastSurfer \
     && git checkout stable
 
-# Use mamba from Miniconda to create fastsurfer_cpu env and install requirements
-RUN /opt/miniconda-22.11.1/bin/mamba create -y -n fastsurfer_cpu python=3.10.16 \
-    && /opt/miniconda-22.11.1/bin/mamba run -n fastsurfer_cpu pip install --upgrade pip \
-    && /opt/miniconda-22.11.1/bin/mamba run -n fastsurfer_cpu pip install -r /opt/FastSurfer/requirements.cpu.txt
+RUN /opt/miniconda-22.11.1/bin/conda run -n base \
+    python /opt/FastSurfer/Docker/install_env.py \
+    -m cpu \
+    -i /opt/FastSurfer/env/FastSurfer.yml \
+    -o /opt/FastSurfer/fastsurfer_cpu.yml
+
+RUN /opt/miniconda-22.11.1/bin/conda env create -f /opt/FastSurfer/fastsurfer_cpu.yml
 
 # Set up Python path and download CNN checkpoints using mamba
 ENV PYTHONPATH="${PYTHONPATH}:/opt/FastSurfer"
