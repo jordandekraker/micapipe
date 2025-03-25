@@ -444,10 +444,10 @@ RUN git clone https://github.com/Deep-MI/FastSurfer.git /opt/FastSurfer \
 
 # Generate the CPU-specific conda environment file using the correct input YAML file (lowercase)
 RUN /opt/miniconda-22.11.1/bin/conda run -n base \
-    python ./Docker/install_env.py \
+    python /opt/FastSurfer/Docker/install_env.py \
     -m cpu \
-    -i ./env/fastsurfer.yml \
-    -o ./fastsurfer_cpu.yml
+    -i /opt/FastSurfer/env/fastsurfer.yml \
+    -o /opt/FastSurfer/fastsurfer_cpu.yml
 
 RUN /opt/miniconda-22.11.1/bin/conda env create -f /opt/FastSurfer/fastsurfer_cpu.yml
 
