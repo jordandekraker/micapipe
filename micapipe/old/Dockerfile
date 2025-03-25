@@ -449,10 +449,12 @@ RUN /opt/miniconda-22.11.1/bin/conda run -n base \
     -i /opt/FastSurfer/env/fastsurfer.yml \
     -o /opt/FastSurfer/fastsurfer_cpu.yml
 
+    # Patch the generated environment file to use torchio==0.20.5 instead of torchio==0.20.4
+RUN sed -i 's/torchio==0.20.4/torchio==0.20.5/g' /opt/FastSurfer/fastsurfer_cpu.yml
+
 RUN /opt/miniconda-22.11.1/bin/conda env create -f /opt/FastSurfer/fastsurfer_cpu.yml
 
-# Patch the generated environment file to use torchio==0.20.5 instead of torchio==0.20.4
-RUN sed -i 's/torchio==0.20.4/torchio==0.20.5/g' /opt/FastSurfer/fastsurfer_cpu.yml
+
 
 # Set up Python path and download CNN checkpoints using mamba
 ENV PYTHONPATH="${PYTHONPATH}:/opt/FastSurfer"
