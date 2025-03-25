@@ -326,8 +326,10 @@ USER mica
 
 # RUN bash -c 'source activate micapipe && conda install -c mrtrix3 mrtrix3==3.0.1 && pip install git+https://github.com/MICA-MNI/ENIGMA.git'
 ENV CONDA_DIR="/opt/miniconda-22.11.1" \
-    PATH="/opt/miniconda-22.11.1/bin:$PATH"
+    PATH="/opt/miniconda-22.11.1/bin:$PATH" \
+    MAMBA_NO_SPINNER=1
 
+# Install Miniconda & Mamba and create environment
 RUN export PATH="/opt/miniconda-22.11.1/bin:$PATH" \
     && echo "Downloading Miniconda installer ..." \
     && conda_installer="/tmp/miniconda.sh" \
@@ -339,8 +341,10 @@ RUN export PATH="/opt/miniconda-22.11.1/bin:$PATH" \
     && conda config --system --set show_channel_urls true \
     && sync && conda clean -y --all && sync \
     && conda install -y -n base -c conda-forge mamba \
-    && mamba create -y -q --name micapipe python=3.9 \
-    && mamba install -y -q --name micapipe \
+    && mamba create -y -n micapipe python=3.9
+
+# Install conda packages via Mamba
+RUN mamba install -y -q -n micapipe -c conda-forge \
            aiohttp \
            aiosignal \
            asn1crypto \
@@ -403,8 +407,10 @@ RUN export PATH="/opt/miniconda-22.11.1/bin:$PATH" \
            yarl \
            zipp \
            "pyvirtualdisplay==3.0" \
-    && sync && mamba clean -y --all && sync \
-    && mamba run -n micapipe pip install --no-cache-dir \
+    && sync && mamba clean -y --all && sync 
+
+# Install pip-only packages
+RUN mamba run -n micapipe pip install --no-cache-dir \   
              "argparse==1.1" \
              "brainspace==0.1.10" \
              "tedana==0.0.12" \
@@ -422,7 +428,8 @@ RUN export PATH="/opt/miniconda-22.11.1/bin:$PATH" \
     && sync \
     && sed -i '$isource activate micapipe' $ND_ENTRYPOINT
 
-RUN mamba run -n micapipe conda install -y -q -c mrtrix3 mrtrix3==3.0.1 \
+# Install MRtrix3 and ENIGMA
+RUN mamba install -y -n micapipe -c mrtrix3 mrtrix3==3.0.1 \
     && mamba run -n micapipe pip install git+https://github.com/MICA-MNI/ENIGMA.git
 
 
