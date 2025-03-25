@@ -344,7 +344,8 @@ RUN export PATH="/opt/miniconda-22.11.1/bin:$PATH" \
     && mamba create -y -n micapipe python=3.9
 
 # Install conda packages via Mamba
-RUN mamba install -y -q -n micapipe -c conda-forge \
+RUN conda config --system --set channel_priority strict \
+    && mamba install -y -q -n micapipe -c conda-forge \
            aiohttp \
            aiosignal \
            asn1crypto \
@@ -441,18 +442,15 @@ RUN git clone https://github.com/Deep-MI/FastSurfer.git /opt/FastSurfer \
     && cd /opt/FastSurfer \
     && git checkout stable
 
-# Use existing Miniconda to create fastsurfer_cpu env and install from requirements.cpu.txt
-RUN /opt/miniconda-22.11.1/bin/conda create -y -n fastsurfer_cpu python=3.10.16 \
-    && /opt/miniconda-22.11.1/bin/conda run -n fastsurfer_cpu pip install --upgrade pip \
-    && /opt/miniconda-22.11.1/bin/conda run -n fastsurfer_cpu pip install -r /opt/FastSurfer/requirements.cpu.txt
-    
+# Use mamba from Miniconda to create fastsurfer_cpu env and install requirements
+RUN /opt/miniconda-22.11.1/bin/mamba create -y -n fastsurfer_cpu python=3.10.16 \
+    && /opt/miniconda-22.11.1/bin/mamba run -n fastsurfer_cpu pip install --upgrade pip \
+    && /opt/miniconda-22.11.1/bin/mamba run -n fastsurfer_cpu pip install -r /opt/FastSurfer/requirements.cpu.txt
 
-# Install FastSurferCNN module
-# ENV PYTHONPATH="${PYTHONPATH}:/opt/FastSurfer"
-# RUN bash -c "source activate fastsurfer_cpu && cd /opt/FastSurfer && python FastSurferCNN/download_checkpoints.py --all && source deactivate"
-# Set up Python path and download CNN checkpoints
+# Set up Python path and download CNN checkpoints using mamba
 ENV PYTHONPATH="${PYTHONPATH}:/opt/FastSurfer"
-RUN /opt/miniconda-22.11.1/bin/conda run -n fastsurfer_cpu python /opt/FastSurfer/FastSurferCNN/download_checkpoints.py
+RUN /opt/miniconda-22.11.1/bin/mamba run -n fastsurfer_cpu python /opt/FastSurfer/FastSurferCNN/download_checkpoints.py
+
 
 USER root
 
@@ -481,6 +479,10 @@ RUN set -uex; \
     tar -xf itksnap.tar.gz -C /opt/ && \
     rm itksnap.tar.gz
 ENV PATH="/opt/c3d-1.0.0-Linux-x86_64/bin:${PATH}"
+
+RUN apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY . /opt/micapipe/
 
