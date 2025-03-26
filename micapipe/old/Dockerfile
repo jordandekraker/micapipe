@@ -223,6 +223,7 @@ RUN apt-get update && \
 
 
 # RUN bash -c 'cd /opt/ && wget http://www.fmrib.ox.ac.uk/~steve/ftp/fix1.068.tar.gz && tar xvfz fix1.068.tar.gz && rm fix1.068.tar.gz' #TODO: still need this 
+COPY ./data_/mica1/01_programs/fix-1.06.15 /opt/fix1.068
 
 RUN test "$(getent passwd mica)" || useradd --no-user-group --create-home --shell /bin/bash mica
 USER mica
