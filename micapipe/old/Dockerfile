@@ -461,7 +461,7 @@ RUN /opt/miniconda-22.11.1/bin/mamba run -n fastsurfer pip install --no-cache-di
 
 # Set PYTHONPATH inline and run the download script
 RUN /bin/bash -c 'PYTHONPATH="/opt/FastSurfer:$PYTHONPATH" \
-     /opt/miniconda-22.11.1/bin/mamba run -n fastsurfer python /opt/FastSurfer/FastSurferCNN/download_checkpoints.py'
+     /opt/miniconda-22.11.1/bin/mamba run -n fastsurfer python /opt/FastSurfer/FastSurferCNN/download_checkpoints.py --all'
 
 
 USER root
