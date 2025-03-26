@@ -457,7 +457,7 @@ RUN /opt/miniconda-22.11.1/bin/conda env create -f /opt/FastSurfer/fastsurfer_cp
 
 
 # Install missing dependency `requests`
-RUN /opt/miniconda-22.11.1/bin/mamba run -n fastsurfer pip install --no-cache-dir requests
+RUN /opt/miniconda-22.11.1/bin/mamba run -n fastsurfer pip install --no-cache-dir requests yacs
 
 # Set PYTHONPATH inline and run the download script
 RUN /bin/bash -c 'PYTHONPATH="/opt/FastSurfer:$PYTHONPATH" \
