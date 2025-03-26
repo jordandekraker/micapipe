@@ -458,7 +458,7 @@ RUN /opt/miniconda-22.11.1/bin/conda env create -f /opt/FastSurfer/fastsurfer_cp
 
 # Set up Python path and download CNN checkpoints using mamba
 ENV PYTHONPATH="${PYTHONPATH}:/opt/FastSurfer"
-RUN /opt/miniconda-22.11.1/bin/mamba run -n fastsurfer_cpu python /opt/FastSurfer/FastSurferCNN/download_checkpoints.py
+RUN /opt/miniconda-22.11.1/bin/mamba run -n fastsurfer python /opt/FastSurfer/FastSurferCNN/download_checkpoints.py
 
 
 USER root
