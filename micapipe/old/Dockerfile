@@ -222,7 +222,12 @@ RUN apt-get update && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 
-RUN bash -c 'cd /opt/ && wget https://git.fmrib.ox.ac.uk/fsl/fix/-/archive/1.068/fix-1.068.tar.gz && tar xvfz fix1.068.tar.gz && rm fix1.068.tar.gz' 
+RUN cd /opt/ && \
+    wget https://git.fmrib.ox.ac.uk/fsl/fix/-/archive/1.068/fix-1.068.tar.gz && \
+    tar xvfz fix-1.068.tar.gz && \
+    mv fix-1.068 fix1.068 && \
+    rm fix-1.068.tar.gz
+
 
 
 RUN test "$(getent passwd mica)" || useradd --no-user-group --create-home --shell /bin/bash mica
