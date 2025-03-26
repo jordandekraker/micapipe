@@ -491,9 +491,6 @@ RUN set -uex; \
     rm itksnap.tar.gz
 ENV PATH="/opt/c3d-1.0.0-Linux-x86_64/bin:${PATH}"
 
-RUN apt-get autoremove -y && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY . /opt/micapipe/
 
