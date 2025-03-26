@@ -433,8 +433,6 @@ RUN mamba run -n micapipe pip install --no-cache-dir \
 RUN mamba install -y -n micapipe -c mrtrix3 mrtrix3==3.0.1 \
     && mamba run -n micapipe pip install git+https://github.com/MICA-MNI/ENIGMA.git
 
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-
 
 ENV PATH="/opt/FastSurfer:$PATH"
 ENV FASTSURFER_HOME=/opt/FastSurfer
