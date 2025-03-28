@@ -17,7 +17,9 @@ jobs:
         run: docker build -t micapipe:test .
 
       - name: Build Singularity (.sif)
-        run: singularity build micapipe.sif docker-daemon://micapipe:test
+        run: |
+          export SINGULARITY_TMPDIR=/tmp
+          singularity build micapipe.sif docker-daemon://micapipe:test
 
       - name: Point test script at new .sif
         run: |
