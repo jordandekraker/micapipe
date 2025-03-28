@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Build Micapipe Docker image
-        run: docker build -t micapipe:test -f ./micapipe/old/Dockerfile .
+        run: docker build -t micapipe:test .
 
       - name: Build Singularity (.sif)
         run: singularity build micapipe.sif docker-daemon://micapipe:test
