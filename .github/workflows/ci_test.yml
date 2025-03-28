@@ -2,7 +2,7 @@ name: CI - Micapipe Test
 
 on:
   push:
-    branches: [workflow_dispatch]
+    branches: ["master"]
   pull_request:
 
 jobs:
