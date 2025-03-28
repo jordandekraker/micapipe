@@ -18,7 +18,7 @@ jobs:
 
       - name: Build Singularity (.sif)
         run: |
-          export SINGULARITY_TMPDIR=/tmp
+          export SINGULARITY_TMPDIR=/export02/local/singularity_tmp
           singularity build micapipe.sif docker-daemon://micapipe:test
 
       - name: Point test script at new .sif
