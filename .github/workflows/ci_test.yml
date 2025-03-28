@@ -1,5 +1,6 @@
 name: CI - Micapipe Test
 
+
 on:
   push:
     branches: ["master"]
