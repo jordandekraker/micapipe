@@ -19,6 +19,7 @@ tmp=/tmp
 timestamp=$(date +%Y%m%d_%H%M%S)
 outdir_base="/data/mica1/03_projects/enning/BIDS_CI/${container}_${version}"
 
+
 # -------------------------------------------------------------------------------
 function run_test(){
     recon=$1
