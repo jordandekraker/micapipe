@@ -1,6 +1,5 @@
 name: CI - Micapipe Test
 
-
 on:
   push:
     branches: ["master"]
@@ -20,7 +19,7 @@ jobs:
       - name: Build Singularity (.sif)
         run: |
           export SINGULARITY_TMPDIR=/export02/local/singularity_tmp
-          singularity build micapipe.sif docker-daemon://micapipe:test
+          singularity build --fakeroot micapipe.sif docker-daemon://micapipe:test
 
       - name: Point test script at new .sif
         run: |
