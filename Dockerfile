@@ -509,6 +509,8 @@ ENV PATH="/opt/c3d-1.0.0-Linux-x86_64/bin:${PATH}"
 
 COPY . /opt/micapipe/
 RUN chmod +x /opt/micapipe/micapipe
+RUN chmod -R a+rx /opt/micapipe
+
 
 
 RUN bash -c 'cd /opt/micapipe && mv fix_settings.sh /opt/fix1.068/settings.sh && mv fsl_conf/* /opt/fsl-6.0.2/etc/flirtsch/'
