@@ -487,7 +487,7 @@ RUN set -uex; \
     LD_LIBRARY_PATH=/lib64/:${PATH}; \
     apt update; \
     apt install -y software-properties-common apt-transport-https; \
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9; \
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9; \
     add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/'; \
     apt-get update; \
     apt-get install -y r-base libblas-dev liblapack-dev gfortran g++ libgl1-mesa-glx; \
