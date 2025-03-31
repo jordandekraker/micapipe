@@ -204,11 +204,19 @@ RUN apt-get update -qq \
     | tar -xz -C /opt/afni-latest --strip-components 1
 
 
-ENV ANTSPATH="/opt/ants-2.3.4" \
-    PATH="/opt/ants-2.3.4:$PATH"
+# ENV ANTSPATH="/opt/ants-2.3.4" \
+#     PATH="/opt/ants-2.3.4:$PATH"
+
+# # Copy ANTs v2.3.4 binaries from kaczmarj/ants:2.3.4
+# COPY --from=kaczmarj/ants:2.3.4 /opt/ants /opt/ants-2.3.4
 
 # Copy ANTs v2.3.4 binaries from kaczmarj/ants:2.3.4
 COPY --from=kaczmarj/ants:2.3.4 /opt/ants /opt/ants-2.3.4
+
+# Update environment variables so that the binaries are in PATH
+ENV ANTSPATH="/opt/ants-2.3.4/bin" \
+    PATH="/opt/ants-2.3.4/bin:$PATH"
+
 
 # RUN bash -c 'apt-get update && apt-get install -y gnupg2 && wget -O- http://neuro.debian.net/lists/xenial.de-fzj.full | tee /etc/apt/sources.list.d/neurodebian.sources.list && apt-key adv --recv-keys --keyserver hkps://keyserver.ubuntu.com 0xA5D32F012649A5A9 && apt-get update && apt-get install -y connectome-workbench=1.3.2-2~nd16.04+1'
 RUN apt-get update && \
