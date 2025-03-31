@@ -43,6 +43,8 @@ function run_test(){
       command="singularity run --writable-tmpfs --containall -B ${bids}:/bids -B ${out}:/out -B ${tmp}:/tmp -B ${fs_lic}:/opt/licence.txt ${container_img}"
     fi
 
+    echo "Start running sample test."
+
     # Run the test for session 01 as an example
     for i in 01; do
       ses=ses-${i}
