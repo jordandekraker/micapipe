@@ -19,11 +19,11 @@ jobs:
       - name: Build Singularity (.sif)
         run: |
           export SINGULARITY_TMPDIR=/export02/local/singularity_tmp
-          singularity build micapipe.sif docker-daemon://micapipe:test
+          singularity build /export02/local/singularity_tmp/micapipe_v0.2.3.sif docker-daemon://micapipe:test
 
       - name: Point test script at new .sif
         run: |
-          sed -i "s|^container_img=.*|container_img=$(pwd)/micapipe.sif|" tests/sample_test.sh
+          sed -i "s|^container_img=.*|container_img=/export02/local/singularity_tmp/micapipe_v0.2.3.sif|" tests/sample_test.sh
 
       - name: Run Micapipe Test
         run: |

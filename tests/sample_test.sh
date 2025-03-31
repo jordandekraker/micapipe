@@ -16,7 +16,7 @@ outdir_base="/data/mica1/03_projects/enning/BIDS_CI/${container}_${version}"
 # Test if outdir_base is writable; if not, fall back to /tmp
 if ! mkdir -p "${outdir_base}" 2>/dev/null; then
     echo "Warning: ${outdir_base} is not writable. Falling back to /tmp."
-    outdir_base="/tmp/${container}_${version}"
+    outdir_base="/export02/local/singularity_tmp/${container}_${version}"
     mkdir -p "${outdir_base}" || { echo "Failed to create fallback directory"; exit 1; }
 fi
 
