@@ -1,0 +1,27 @@
+bids_dir: "test_data/raw_data"
+output_dir: "test_data/processed_data"
+script_dir: "functions"
+subjects:
+  - "001"
+  - "002"
+sessions:
+  - "01"
+threads: 6
+software:
+  freesurfer_license: "/path/to/license.txt"
+parameters:
+  proc_structural:
+    T1wStr: "T1w"
+    UNI: "FALSE"
+    MF: 3
+  proc_surf:
+    freesurfer: "FALSE"
+    fs_licence: "C:/path/to/fs_licence.txt"
+  post_structural:
+    atlas: "default"
+    freesurfer: "FALSE"
+  proc_dwi:
+    dwi_main: "DEFAULT"
+    dwi_rpe: "DEFAULT"
+    b0thr: 61
+    # Add more DWI parameters here if needed (e.g., no_bvalue_scaling, etc.)

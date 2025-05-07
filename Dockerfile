@@ -203,22 +203,147 @@ RUN apt-get update -qq \
     && curl -fsSL --retry 5 https://afni.nimh.nih.gov/pub/dist/tgz/linux_openmp_64.tgz \
     | tar -xz -C /opt/afni-latest --strip-components 1
 
-ENV ANTSPATH="/opt/ants-2.3.4/" \
-    PATH="/opt/ants-2.3.4:$PATH"
-RUN  echo "Downloading ANTs ..." \
-    && mkdir -p /opt/ants-2.3.4 \
-    && curl -fsSL https://dl.dropbox.com/s/gwf51ykkk5bifyj/ants-Linux-centos6_x86_64-v2.3.4.tar.gz \
-    | tar -xz -C /opt/ants-2.3.4 --strip-components 1
 
-RUN bash -c 'apt-get update && apt-get install -y gnupg2 && wget -O- http://neuro.debian.net/lists/xenial.de-fzj.full | tee /etc/apt/sources.list.d/neurodebian.sources.list && apt-key adv --recv-keys --keyserver hkps://keyserver.ubuntu.com 0xA5D32F012649A5A9 && apt-get update && apt-get install -y connectome-workbench=1.3.2-2~nd16.04+1'
+# ENV ANTSPATH="/opt/ants-2.3.4" \
+#     PATH="/opt/ants-2.3.4:$PATH"
 
-RUN bash -c 'cd /opt/ && wget http://www.fmrib.ox.ac.uk/~steve/ftp/fix1.068.tar.gz && tar xvfz fix1.068.tar.gz && rm fix1.068.tar.gz'
+# # Copy ANTs v2.3.4 binaries from kaczmarj/ants:2.3.4
+# COPY --from=kaczmarj/ants:2.3.4 /opt/ants /opt/ants-2.3.4
+
+# Copy ANTs v2.3.4 binaries from kaczmarj/ants:2.3.4
+COPY --from=kaczmarj/ants:2.3.4 /opt/ants /opt/ants-2.3.4
+
+# Update environment variables so that the binaries are in PATH
+ENV ANTSPATH="/opt/ants-2.3.4/bin" \
+    PATH="/opt/ants-2.3.4/bin:$PATH"
+
+
+# RUN bash -c 'apt-get update && apt-get install -y gnupg2 && wget -O- http://neuro.debian.net/lists/xenial.de-fzj.full | tee /etc/apt/sources.list.d/neurodebian.sources.list && apt-key adv --recv-keys --keyserver hkps://keyserver.ubuntu.com 0xA5D32F012649A5A9 && apt-get update && apt-get install -y connectome-workbench=1.3.2-2~nd16.04+1'
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+      gnupg2 wget ca-certificates \
+      neurodebian-archive-keyring && \
+    wget -O /etc/apt/sources.list.d/neurodebian.sources.list \
+         http://neuro.debian.net/lists/xenial.de-fzj.full && \
+    apt-get update && \
+    apt-get install -y connectome-workbench=1.3.2-2~nd16.04+1 && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+
+RUN cd /opt/ && \
+    wget https://git.fmrib.ox.ac.uk/fsl/fix/-/archive/1.068/fix-1.068.tar.gz && \
+    tar xvfz fix-1.068.tar.gz && \
+    mv fix-1.068 fix1.068 && \
+    rm fix-1.068.tar.gz
+
+
 
 RUN test "$(getent passwd mica)" || useradd --no-user-group --create-home --shell /bin/bash mica
 USER mica
 
+# ENV CONDA_DIR="/opt/miniconda-22.11.1" \
+#     PATH="/opt/miniconda-22.11.1/bin:$PATH"
+# RUN export PATH="/opt/miniconda-22.11.1/bin:$PATH" \
+#     && echo "Downloading Miniconda installer ..." \
+#     && conda_installer="/tmp/miniconda.sh" \
+#     && curl -fsSL --retry 5 -o "$conda_installer" https://repo.anaconda.com/miniconda/Miniconda3-py39_22.11.1-1-Linux-x86_64.sh \
+#     && bash "$conda_installer" -b -p /opt/miniconda-22.11.1 \
+#     && rm -f "$conda_installer" \
+#     && conda config --system --prepend channels conda-forge \
+#     && conda config --system --set auto_update_conda false \
+#     && conda config --system --set show_channel_urls true \
+#     && sync && conda clean -y --all && sync \
+#     && conda create -y -q --name micapipe \
+#     && conda install -y -q --name micapipe \
+#            "python" \
+#            "aiohttp" \
+#            "aiosignal" \
+#            "asn1crypto" \
+#            "async-timeout" \
+#            "astropy" \
+#            "attrs" \
+#            "bokeh" \
+#            "cffi" \
+#            "charset-normalizer" \
+#            "click" \
+#            "contourpy" \
+#            "cryptography" \
+#            "cycler" \
+#            "fonttools" \
+#            "frozenlist" \
+#            "html5lib" \
+#            "idna" \
+#            "importlib-resources" \
+#            "jinja2" \
+#            "joblib" \
+#            "kiwisolver" \
+#            "lxml" \
+#            "markupsafe" \
+#            "matplotlib==3.4.3" \
+#            "multidict" \
+#            "nibabel==4.0.2" \
+#            "nilearn" \
+#            "numpy==1.21.5" \
+#            "packaging" \
+#            "pandas==1.4.4" \
+#            "pillow" \
+#            "pycparser" \
+#            "pyhanko-certvalidator" \
+#            "pyparsing" \
+#            "pypdf" \
+#            "pypng" \
+#            "python-bidi" \
+#            "python-dateutil" \
+#            "pytz" \
+#            "pytz-deprecation-shim" \
+#            "pyyaml" \
+#            "qrcode" \
+#            "reportlab" \
+#            "requests" \
+#            "scikit-learn" \
+#            "scikit-fmm" \
+#            "scipy" \
+#            "six" \
+#            "svglib" \
+#            "threadpoolctl" \
+#            "tinycss2" \
+#            "tornado" \
+#            "typing-extensions" \
+#            "tzlocal" \
+#            "uritools" \
+#            "urllib3" \
+#            "vtk==9.2.2" \
+#            "webencodings" \
+#            "wslink" \
+#            "yarl" \
+#            "zipp" \
+#            "pyvirtualdisplay==3.0" \
+#     && sync && conda clean -y --all && sync \
+#     && bash -c "source activate micapipe \
+#     &&   pip install --no-cache-dir  \
+#              "argparse==1.1" \
+#              "brainspace==0.1.10" \
+#              "tedana==0.0.12" \
+#              "duecredit" \
+#              "pyhanko==0.17.2" \
+#              "mapca==0.0.3" \
+#              "xhtml2pdf==0.2.9" \
+#              "oscrypto==1.3.0" \
+#              "tzdata==2022.7" \
+#              "arabic-reshaper==3.0.0" \
+#              "cssselect2==0.7.0" \
+#              "pygeodesic==0.1.8" \
+#              "seaborn==0.11.2"" \
+#     && rm -rf ~/.cache/pip/* \
+#     && sync \
+#     && sed -i '$isource activate micapipe' $ND_ENTRYPOINT
+
+# RUN bash -c 'source activate micapipe && conda install -c mrtrix3 mrtrix3==3.0.1 && pip install git+https://github.com/MICA-MNI/ENIGMA.git'
 ENV CONDA_DIR="/opt/miniconda-22.11.1" \
-    PATH="/opt/miniconda-22.11.1/bin:$PATH"
+    PATH="/opt/miniconda-22.11.1/bin:$PATH" \
+    MAMBA_NO_SPINNER=1
+
+# Install Miniconda & Mamba and create environment
 RUN export PATH="/opt/miniconda-22.11.1/bin:$PATH" \
     && echo "Downloading Miniconda installer ..." \
     && conda_installer="/tmp/miniconda.sh" \
@@ -229,78 +354,82 @@ RUN export PATH="/opt/miniconda-22.11.1/bin:$PATH" \
     && conda config --system --set auto_update_conda false \
     && conda config --system --set show_channel_urls true \
     && sync && conda clean -y --all && sync \
-    && conda create -y -q --name micapipe \
-    && conda install -y -q --name micapipe \
-           "python" \
-           "aiohttp" \
-           "aiosignal" \
-           "asn1crypto" \
-           "async-timeout" \
-           "astropy" \
-           "attrs" \
-           "bokeh" \
-           "cffi" \
-           "charset-normalizer" \
-           "click" \
-           "contourpy" \
-           "cryptography" \
-           "cycler" \
-           "fonttools" \
-           "frozenlist" \
-           "html5lib" \
-           "idna" \
-           "importlib-resources" \
-           "jinja2" \
-           "joblib" \
-           "kiwisolver" \
-           "lxml" \
-           "markupsafe" \
+    && conda install -y -n base -c conda-forge mamba \
+    && mamba create -y -n micapipe python=3.9
+
+# Install conda packages via Mamba
+RUN conda config --system --set channel_priority strict \
+    && mamba install -y -q -n micapipe -c conda-forge \
+           aiohttp \
+           aiosignal \
+           asn1crypto \
+           async-timeout \
+           astropy \
+           attrs \
+           bokeh \
+           cffi \
+           charset-normalizer \
+           click \
+           contourpy \
+           cryptography \
+           cycler \
+           fonttools \
+           frozenlist \
+           html5lib \
+           idna \
+           importlib-resources \
+           jinja2 \
+           joblib \
+           kiwisolver \
+           lxml \
+           markupsafe \
            "matplotlib==3.4.3" \
-           "multidict" \
+           multidict \
            "nibabel==4.0.2" \
-           "nilearn" \
+           nilearn \
            "numpy==1.21.5" \
-           "packaging" \
+           packaging \
            "pandas==1.4.4" \
-           "pillow" \
-           "pycparser" \
-           "pyhanko-certvalidator" \
-           "pyparsing" \
-           "pypdf" \
-           "pypng" \
-           "python-bidi" \
-           "python-dateutil" \
-           "pytz" \
-           "pytz-deprecation-shim" \
-           "pyyaml" \
-           "qrcode" \
-           "reportlab" \
-           "requests" \
-           "scikit-learn" \
-           "scikit-fmm" \
-           "scipy" \
-           "six" \
-           "svglib" \
-           "threadpoolctl" \
-           "tinycss2" \
-           "tornado" \
-           "typing-extensions" \
-           "tzlocal" \
-           "uritools" \
-           "urllib3" \
+           pillow \
+           pycparser \
+           pyhanko-certvalidator \
+           pyparsing \
+           pypdf \
+           pypng \
+           python-bidi \
+           python-dateutil \
+           pytz \
+           pytz-deprecation-shim \
+           pyyaml \
+           qrcode \
+           reportlab \
+           requests \
+           scikit-learn \
+           scikit-fmm \
+           scipy \
+           six \
+           svglib \
+           threadpoolctl \
+           tinycss2 \
+           tornado \
+           typing-extensions \
+           tzlocal \
+           uritools \
+           urllib3 \
            "vtk==9.2.2" \
-           "webencodings" \
-           "wslink" \
-           "yarl" \
-           "zipp" \
+           webencodings \
+           wslink \
+           yarl \
+           zipp \
            "pyvirtualdisplay==3.0" \
-    && sync && conda clean -y --all && sync \
-    && bash -c "source activate micapipe \
-    &&   pip install --no-cache-dir  \
+    && sync && mamba clean -y --all && sync 
+
+# Install pip-only packages
+RUN mamba run -n micapipe pip install --no-cache-dir \   
              "argparse==1.1" \
              "brainspace==0.1.10" \
              "tedana==0.0.12" \
-             "duecredit" \
+             duecredit \
              "pyhanko==0.17.2" \
              "mapca==0.0.3" \
              "xhtml2pdf==0.2.9" \
@@ -309,26 +438,45 @@ RUN export PATH="/opt/miniconda-22.11.1/bin:$PATH" \
              "arabic-reshaper==3.0.0" \
              "cssselect2==0.7.0" \
              "pygeodesic==0.1.8" \
-             "seaborn==0.11.2"" \
+             "seaborn==0.11.2" \
     && rm -rf ~/.cache/pip/* \
     && sync \
     && sed -i '$isource activate micapipe' $ND_ENTRYPOINT
 
-RUN bash -c 'source activate micapipe && conda install -c mrtrix3 mrtrix3==3.0.1 && pip install git+https://github.com/MICA-MNI/ENIGMA.git'
+# Install MRtrix3 and ENIGMA
+RUN mamba install -y -n micapipe -c mrtrix3 mrtrix3==3.0.1 \
+    && mamba run -n micapipe pip install git+https://github.com/MICA-MNI/ENIGMA.git
+
 
 ENV PATH="/opt/FastSurfer:$PATH"
 ENV FASTSURFER_HOME=/opt/FastSurfer
-RUN git clone https://github.com/Deep-MI/FastSurfer.git /opt/FastSurfer && cd /opt/FastSurfer && git checkout stable && ls /opt/FastSurfer
-RUN cd /opt/FastSurfer \
-  && bash -c 'wget --no-check-certificate -qO /tmp/miniconda.sh https://repo.continuum.io/miniconda/Miniconda3-py38_4.11.0-Linux-x86_64.sh \
-  && chmod +x /tmp/miniconda.sh \
-  && /tmp/miniconda.sh -b -p /opt/conda \
-  && rm /tmp/miniconda.sh \
-  && conda env create -f ./fastsurfer_env_cpu.yml'
 
-# Install FastSurferCNN module
-ENV PYTHONPATH="${PYTHONPATH}:/opt/FastSurfer"
-RUN bash -c "source activate fastsurfer_cpu && cd /opt/FastSurfer && python FastSurferCNN/download_checkpoints.py --all && source deactivate"
+# Clone FastSurfer (the 'stable' branch is fine)
+RUN git clone https://github.com/Deep-MI/FastSurfer.git /opt/FastSurfer \
+    && cd /opt/FastSurfer \
+    && git checkout stable
+
+# Generate the CPU-specific conda environment file using the correct input YAML file (lowercase)
+RUN /opt/miniconda-22.11.1/bin/conda run -n base \
+    python /opt/FastSurfer/Docker/install_env.py \
+    -m cpu \
+    -i /opt/FastSurfer/env/fastsurfer.yml \
+    -o /opt/FastSurfer/fastsurfer_cpu.yml
+
+    # Patch the generated environment file to use torchio==0.20.5 instead of torchio==0.20.4
+RUN sed -i 's/torchio==0.20.4/torchio==0.20.5/g' /opt/FastSurfer/fastsurfer_cpu.yml
+
+RUN /opt/miniconda-22.11.1/bin/conda env create -f /opt/FastSurfer/fastsurfer_cpu.yml
+
+
+
+# Install missing dependency `requests`
+RUN /opt/miniconda-22.11.1/bin/mamba run -n fastsurfer pip install --no-cache-dir requests yacs
+
+# Set PYTHONPATH inline and run the download script
+RUN /bin/bash -c 'PYTHONPATH="/opt/FastSurfer:$PYTHONPATH" \
+     /opt/miniconda-22.11.1/bin/mamba run -n fastsurfer python /opt/FastSurfer/FastSurferCNN/download_checkpoints.py --all'
+
 
 USER root
 
@@ -339,7 +487,7 @@ RUN set -uex; \
     LD_LIBRARY_PATH=/lib64/:${PATH}; \
     apt update; \
     apt install -y software-properties-common apt-transport-https; \
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9; \
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9; \
     add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/'; \
     apt-get update; \
     apt-get install -y r-base libblas-dev liblapack-dev gfortran g++ libgl1-mesa-glx; \
@@ -358,7 +506,12 @@ RUN set -uex; \
     rm itksnap.tar.gz
 ENV PATH="/opt/c3d-1.0.0-Linux-x86_64/bin:${PATH}"
 
+
 COPY . /opt/micapipe/
+RUN chmod +x /opt/micapipe/micapipe
+RUN chmod -R a+rx /opt/micapipe
+
+
 
 RUN bash -c 'cd /opt/micapipe && mv fix_settings.sh /opt/fix1.068/settings.sh && mv fsl_conf/* /opt/fsl-6.0.2/etc/flirtsch/'
 

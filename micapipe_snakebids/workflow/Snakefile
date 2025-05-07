@@ -1,0 +1,99 @@
+from snakebids import bids, generate_inputs, get_wildcard_constraints
+
+configfile: 'config/snakebids.yml'
+
+
+# Global variables from the config file
+bids_dir = config['bids_dir']
+output_dir = config['output_dir']
+tmp_dir = config['tmp_dir']
+
+container_mode = config.get("container", {}).get("mode", "original")
+container_image = config.get("container", {}).get("image", "")
+
+if container_mode == "docker":
+    command = (
+        f"docker run -ti --rm "
+        f"-v {bids_dir}:/bids -v {output_dir}:/out -v {tmp_dir}:/tmp "
+        f"-v {config['parameters']['fs_license']}:/opt/licence.txt "
+        f"{container_image}"
+    )
+elif container_mode == "singularity":
+    command = (
+        f"singularity run --writable-tmpfs --containall "
+        f"-B {bids_dir}:/bids -B {output_dir}:/out -B {tmp_dir}:/tmp "
+        f"-B {config['parameters']['fs_license']}:/opt/licence.txt "
+        f"{container_image}"
+    )
+else:
+    command = "micapipe"
+
+if container_mode in ["docker", "singularity"]:
+    bids_args = "/bids"
+    output_args = "/out"
+    fs_licence_args = "/opt/licence.txt"
+else:
+    bids_args = bids_dir
+    output_args = output_dir
+    fs_licence_args = config["parameters"]["fs_license"]
+
+
+inputs = generate_inputs(
+    bids_dir=config["bids_dir"],
+    pybids_inputs=config["pybids_inputs"],
+    pybidsdb_dir=config.get("pybidsdb_dir"),
+    pybidsdb_reset=config.get("pybidsdb_reset"),
+    derivatives=config.get("derivatives", None),
+    participant_label=config.get("participant_label", None),
+    exclude_participant_label=config.get("exclude_participant_label", None),
+    validate=not config.get("plugins.validator.skip", False)
+)
+
+# print("FUNC:", inputs['func'])
+# print("DWI:", inputs['dwi'])
+
+del inputs['t1w'].wildcards['run']
+
+include: 'common.smk'
+include: 'rules/structural.smk'
+include: 'rules/dwi.smk'
+include: 'rules/func.smk'
+include: 'rules/mpc.smk'
+include: 'rules/flair.smk'
+include: 'rules/swm.smk'
+include: 'rules/mpc_swm.smk'
+include: 'rules/qc.smk'
+
+modules = config.get("module", [])
+if not isinstance(modules, list):
+    modules = [modules]
+print("MODULES:", modules)
+
+
+def get_final_outputs(inputs, output_dir, modules):
+    input_list = []
+    if "structural" in modules:
+        print("STRUCTURAL")
+        input_list += get_all_structural_outputs(inputs, output_dir)
+    if "dwi" in modules:
+        input_list += get_sc_outputs(inputs, output_dir)
+    if "func" in modules:
+        input_list +=get_func_outputs(inputs, output_dir)
+    if "mpc" in modules:
+        input_list += get_mpc_outputs(inputs, output_dir)
+    if "flair" in modules:
+        input_list += get_flair_outputs(inputs, output_dir)
+    if "swm" in modules:
+        input_list += get_swm_outputs(inputs, output_dir)
+    if "mpc_swm" in modules:
+        input_list += get_mpc_swm_outputs(inputs, output_dir)
+    if "qc" in modules:
+        input_list += get_qc_outputs(inputs, output_dir)
+    print("INPUT LIST:", input_list)
+    return input_list
+
+print("GD output path:", get_geodesic_distance_outputs(inputs, output_dir))
+
+rule all:
+    input:
+        get_final_outputs(inputs, output_dir, modules)
