@@ -1,0 +1,17 @@
+name: CI - Micapipe Test
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+
+jobs:
+  run-micapipe:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Run Micapipe Test
+        run: |
+          chmod +x ./tests/sample_test.sh
+          ./tests/sample_test.sh
