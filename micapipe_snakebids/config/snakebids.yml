@@ -7,6 +7,7 @@ targets_by_analysis_level:
   participant:
     - "all" # if '', then the first rule is run
 
+
 # Configure components:
 # Each entry creates a new component that can be retreived within the workflow
 # via `generate_inputs`.
@@ -14,16 +15,25 @@ targets_by_analysis_level:
 # single value or list of values to select.
 # Wildcards are used to mark variable parts of paths. Each wildcard is an
 # entity, such as `subject` or `session`, that may vary across component paths.
+
+# NEW: `snakenull` is a new feature that allows you to specify
+snakenull:
+  enabled: true       # default: legacy behavior
+  label: snakenull     # placeholder value for missing entities
+  scope: all           # "all" or a list, e.g., ["session", "acquisition"]
+
 pybids_inputs:
   t1w:
     filters:
+      datatype: anat
       suffix: T1w
-      extension: nii.gz
-
-    wildcards:
+      extension: .nii.gz
+    wildcards: 
       - subject
       - session
+      - acquisition
       - run
+      - part
 
   func:
     filters:
@@ -35,6 +45,9 @@ pybids_inputs:
       - session
       - task
       - acquisition
+      - run
+      - echo
+      - part
 
   dwi:
     filters:
@@ -44,17 +57,10 @@ pybids_inputs:
     wildcards:
       - subject
       - session
+      - run
       - acquisition
-      - dir
-  # bold:
-  #   filters:
-  #     suffix: bold
-  #     extension: nii.gz
-  #   wildcards:
-  #     - subject
-  #     - run
-  #     - session
-  #     - acquisition
+      - direction
+      - part
 
 # configuration for the command-line parameters to make available
 # passed on the argparse add_argument()

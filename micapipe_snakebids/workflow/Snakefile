@@ -46,13 +46,14 @@ inputs = generate_inputs(
     derivatives=config.get("derivatives", None),
     participant_label=config.get("participant_label", None),
     exclude_participant_label=config.get("exclude_participant_label", None),
-    validate=not config.get("plugins.validator.skip", False)
+    validate=not config.get("plugins.validator.skip", False),
+    snakenull=config.get("snakenull"),
 )
 
+# print("T1w:", inputs['t1w'])
 # print("FUNC:", inputs['func'])
 # print("DWI:", inputs['dwi'])
 
-del inputs['t1w'].wildcards['run']
 
 include: 'common.smk'
 include: 'rules/structural.smk'
